@@ -78,4 +78,12 @@ public class Passenger {
         this.id = id;
     }
 
+
+    // REQUIRES: 100<=time<=2459
+    // MODIFIES: this
+    // EFFECTS: set the passenger's departing time
+    public void setTime(int time) {
+        this.time = time;
+    }
+
 }

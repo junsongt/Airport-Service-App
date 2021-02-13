@@ -44,7 +44,7 @@ for the journey. It seems fun...
   
 - As a user, I want to be able to cancel my booking;
 
-- As a user, I want to be able to confirm the result;
+- As a user, I want to be able to confirm and see the result;
 
 - As a user, I want to be able to make another booking;
 

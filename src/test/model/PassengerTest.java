@@ -43,12 +43,19 @@ class PassengerTest {
     }
 
     @Test
-    public void testSetID() {
+    public void testChangeID() {
         testPassenger.setID("z6k8l");
         assertEquals("z6k8l", testPassenger.getId());
         testPassenger.setID("a1b2c");
         assertEquals("a1b2c", testPassenger.getId());
+    }
 
+    @Test
+    public void testChangeTime() {
+        testPassenger.setTime(700);
+        assertEquals(700, testPassenger.getTime());
+        testPassenger.setTime(2459);
+        assertEquals(2459, testPassenger.getTime());
     }
 
 }
