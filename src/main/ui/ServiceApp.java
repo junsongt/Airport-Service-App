@@ -152,10 +152,8 @@ public class ServiceApp {
             System.out.println("Please choose your seat by entering row number and column number:");
             Flight f = airlines.getFlight(p.getFlightNum());
             printSeats(f);
-            String commandR = input.next();
-            int row = Integer.parseInt(commandR);
-            String commandC = input.next();
-            int col = Integer.parseInt(commandC);
+            int row = input.nextInt();
+            int col = input.nextInt();
             if (f.getSeat(row, col).equals("X")) {
                 System.out.println("This seat is booked. Please choose another seat:");
             } else {

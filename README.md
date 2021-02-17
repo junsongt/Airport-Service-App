@@ -26,6 +26,8 @@ for the journey. It seems fun...
 
 **User Stories**
 
+*Phase 1*
+
 - As a user, I want to be able to search a ticket;
 
   - As a user, I want to be able to input my destination;
@@ -46,7 +48,22 @@ for the journey. It seems fun...
 
 - As a user, I want to be able to confirm and see the result;
 
-- As a user, I want to be able to make another booking;
+- As a user, I want to be able to make another booking.
+
+
+*Phase 2*
+
+- As a user, I want to be able to save my current unfinished booking information;
+
+  - As a user, I want to be able to be reminded to save my current booking 
+  when I wish to go back to main menu with unfinished booking and given the "save"
+  option to save my work;
+
+- As a user, I want to be able to load my unfinished booking information from file 
+to continue booking;
+
+  - As a user, I want to be able to be given the option to load unfinished booking
+  when I start from the main menu.
 
 
 
