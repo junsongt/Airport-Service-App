@@ -21,19 +21,16 @@ public class ServiceApp {
         boolean reset = false;
         while (!reset) {
             this.input = new Scanner(System.in);
-            menu();
+            mainMenu();
             String command = input.next();
             if (command.equals("s")) {
                 runService();
-                input.next();
             } else if (command.equals("reset")) {
                 reset = true;
             } else {
                 System.out.println("Please enter 's' to start service.");
             }
         }
-
-
     }
 
     // MODIFIES: this
@@ -53,24 +50,44 @@ public class ServiceApp {
 
 
     // EFFECTS: show the main menu on app
-    public void menu() {
+    public void mainMenu() {
+        System.out.println("Hello! Welcome to the airport!");
         System.out.println("Start service => Press 's'.");
+    }
+
+    // EFFECTS: show the sub menu on app
+    public void subMenu() {
+        System.out.println("Start new booking => Press 'n'.");
+        System.out.println("Load from previous booking => Press 'l'.");
+        System.out.println("Back to main menu => Press 'b'.");
 
     }
 
-    // MODIFIES: this
-    // EFFECTS: the actual service running
-    public void runService() {
-        System.out.println("Hello! Welcome to the airport!");
-        Passenger me = createPassenger();
+    public void processSubMenuCommand() {
+        boolean backToMainMenu = false;
+        while (!backToMainMenu) {
+            String command = input.next();
+            if (command.equals("n")) {
+                newService();
+            } else if (command.equals("l")) {
+                loadService();
+            } else if (command.equals("b")) {
+                backToMainMenu = true;
+            } else {
+                System.out.println("Please press the correct button.");
+            }
+        }
+    }
 
+
+    // TODO: To be revised
+    public void newService() {
+        Passenger me = createPassenger();
         while (!searchFlight(me.getTime(), me.getDestination())) {
             System.out.println("please re-enter your departing time and destination");
             me = createPassenger();
         }
-
         chooseFlight(me);
-
         String flightNum = me.getFlightNum();
         if (confirmBook(me)) {
             airlines.getFlight(flightNum).addPassenger(me);
@@ -79,11 +96,27 @@ public class ServiceApp {
         } else {
             cancelBook();
         }
-
         System.out.println("Press 'b' to get back to the main menu.");
+    }
 
+
+    // TODO: To be implemented
+    public void loadService() {
 
     }
+
+    // TODO: To be implemented
+    public void saveBooking() {
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: the actual service running
+    public void runService() {
+        subMenu();
+        processSubMenuCommand();
+    }
+
 
 
     // EFFECTS: construct a new passenger with the given time and destination user inputs
