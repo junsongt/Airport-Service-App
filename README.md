@@ -13,8 +13,7 @@ boarding pass and itinerary(confirmation).
 
 - *User Group*
 
-This application is designed for passengers who either booked a ticket online in advance or have not 
-done so.
+This application is designed for passengers or airport staff.
 
 
 - *Design Motivation*
@@ -28,7 +27,7 @@ for the journey. It seems fun...
 
 *Phase 1*
 
-- As a user, I want to be able to search a ticket;
+- As a user, I want to be able to search a ticket just for reference;
 
   - As a user, I want to be able to input my destination;
 
@@ -38,32 +37,25 @@ for the journey. It seems fun...
   
 - As a user, I want to be able to book a ticket;
 
-  - As a user, I want to be able to choose a flight;
+  - As a user, I want to be able to choose a flight from search results;
 
   - As a user, I want to be able to input my name, and ID(i.e. passport number);
   
   - As a user, I want to be able to choose a seat;
   
-- As a user, I want to be able to cancel my booking;
-
 - As a user, I want to be able to confirm and see the result;
+
+- As a user, I want to be able to cancel my previous booking;
 
 - As a user, I want to be able to make another booking.
 
 
 *Phase 2*
 
-- As a user, I want to be able to save my current unfinished booking information;
+- As a user, I want to be able to save all current airline booking info;
 
-  - As a user, I want to be able to be reminded to save my current booking 
-  when I wish to go back to main menu with unfinished booking and given the "save"
-  option to save my work;
+- As a user, I want to be able to load the airline booking info from the last time saved from a file;
 
-- As a user, I want to be able to load my unfinished booking information from file 
-to continue booking;
-
-  - As a user, I want to be able to be given the option to load unfinished booking
-  when I start from the main menu.
 
 
 

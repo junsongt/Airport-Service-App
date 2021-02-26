@@ -77,5 +77,25 @@ public class Flight {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: set the seat as open("O") at given row index and column index
+    public void releaseSeat(int r, int c) {
+        this.seats.get(r).set(c, "O");
+    }
 
+
+    // EFFECTS: find the passenger in this flight by given passenger's name & ID
+    public Passenger findPassenger(String name, String id) {
+        for (Passenger p : passengerList) {
+            if (p.getName().equals(name) && p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    // EFFECTS: determine if the seat on this flight is occupied
+    public boolean isSeatOccupied(int r, int c) {
+        return seats.get(r).get(c).equals("X");
+    }
 }

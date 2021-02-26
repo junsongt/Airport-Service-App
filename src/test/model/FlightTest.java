@@ -52,7 +52,33 @@ public class FlightTest {
         testFlight.setSeat(2,1);
         assertEquals("X", testFlight.getSeat(2,1));
         assertEquals("O", testFlight.getSeat(1,1));
+    }
 
 
+    @Test
+    public void testReleaseSeat() {
+        testPassenger.chooseSeat(2,1);
+        testFlight.setSeat(2,1);
+        assertEquals("X", testFlight.getSeat(2,1));
+        testFlight.releaseSeat(2,1);
+        assertEquals("O", testFlight.getSeat(2,1));
+    }
+
+    @Test
+    public void testFindPassenger() {
+        testFlight.addPassenger(testPassenger);
+        testPassenger.setName("Jason");
+        testPassenger.setID("z6k8l");
+        assertEquals(testPassenger, testFlight.findPassenger("Jason", "z6k8l"));
+        assertNull(testFlight.findPassenger("Jason", "12345"));
+        assertNull(testFlight.findPassenger("Jack", "z6k8l"));
+        assertNull(testFlight.findPassenger("Jack", "12345"));
+    }
+
+    @Test
+    public void testIsSeatOccupied() {
+        testFlight.setSeat(2,1);
+        assertTrue(testFlight.isSeatOccupied(2,1));
+        assertFalse(testFlight.isSeatOccupied(0, 0));
     }
 }
