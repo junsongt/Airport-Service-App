@@ -4,7 +4,11 @@ package ui;
 import model.Airlines;
 import model.Flight;
 import model.Passenger;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,28 +16,23 @@ import java.util.Scanner;
 public class ServiceApp {
     private Scanner input;
     private Airlines airlines;
+    private static final String JSON_STORE = "./data/airlines.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
 
     // EFFECTS: constructor with building today's airlines, and building flow structure of running app
-    public ServiceApp() {
+    public ServiceApp() throws FileNotFoundException {
         this.airlines = new Airlines();
         buildAirlines();
-
-        boolean reset = false;
-        while (!reset) {
-            this.input = new Scanner(System.in);
-            mainMenu();
-            String command = input.next();
-            if (command.equals("s")) {
-                startService();
-            } else if (command.equals("l")) {
-                loadBooking();
-            } else if (command.equals("reset")) {
-                reset = true;
-            } else {
-                System.out.println("Please enter 's' to start service.");
-            }
-        }
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        this.input = new Scanner(System.in);
+        processMainMenu();
     }
+
+
+
 
     // MODIFIES: this
     // EFFECTS: building today's airlines
@@ -51,11 +50,15 @@ public class ServiceApp {
     }
 
 
+//===========================================================================================
+// Main menu & Sub-menu
+
     // EFFECTS: show the main menu on app
     public void mainMenu() {
         System.out.println("Hello! Welcome to the airport!");
         System.out.println("Start service => Press 's'.");
         System.out.println("Load the current booking info => Press 'l'.");
+        System.out.println("Save the current booking info => Press 'v'.");
     }
 
     // EFFECTS: show the sub-menu within the runService functionality on app
@@ -68,26 +71,29 @@ public class ServiceApp {
 
 
 
-    // MODIFIES: this
-    // EFFECTS: start the actual service by going into a sub-menu
-    public void startService() {
-        processSubMenu();
+    // EFFECTS: process the different inputs to corresponding functionalities on main-menu
+    // TODO: could throw exception: invalid inputs (implement later phase)
+    public void processMainMenu() {
+        boolean reset = false;
+        while (!reset) {
+            mainMenu();
+            String command = input.next();
+            if (command.equals("s")) {
+                startService();
+            } else if (command.equals("l")) {
+                loadBooking();
+            } else if (command.equals("v")) {
+                saveBooking();
+            } else if (command.equals("reset")) {
+                reset = true;
+            } else {
+                System.out.println("Please enter 's' to start service.");
+            }
+        }
     }
-
-    // TODO: To be implemented
-    public void loadBooking() {
-        //....
-        backToMainMenuHint();
-    }
-
-    // TODO: To be implemented
-    public void saveBooking() {
-
-    }
-
 
     // EFFECTS: process the different inputs to corresponding functionalities on sub-menu
-    // TODO: throw  exception: invalid inputs
+    // TODO: could throw exception: invalid inputs (implement later phase)
     public void processSubMenu() {
         boolean backToMainMenu = false;
         while (!backToMainMenu) {
@@ -108,10 +114,8 @@ public class ServiceApp {
     }
 
 
-
-
     // EFFECTS: return to the main menu
-    // TODO: could throw exception: invalid input
+    // TODO: could throw exception: invalid input (implement later phase)
     public void backToMainMenuHint() {
         System.out.println("Back to main menu => Press 'b'.");
         String command = input.next();
@@ -122,7 +126,7 @@ public class ServiceApp {
     }
 
     // EFFECTS: return to the sub menu
-    // TODO: could throw exception: invalid input
+    // TODO: could throw exception: invalid input (implement later phase)
     public void backToSubMenuHint() {
         System.out.println("Back to sub menu => Press 'b'.");
         String command = input.next();
@@ -134,9 +138,48 @@ public class ServiceApp {
 
 
 
+//============================================================================================
+// Main menu functionalities
+
+    // MODIFIES: this
+    // EFFECTS: start the actual service by going into a sub-menu
+    public void startService() {
+        processSubMenu();
+    }
+
+    // TODO citation: code taken and modified from WorkRoomApp.java class in JsonSerializationDemo
+    // MODIFIES: this
+    // EFFECTS: load the total booking in airlines previously saved from json file
+    public void loadBooking() {
+        try {
+            airlines = jsonReader.readAirlines();
+            System.out.println("Loaded previously saved booking from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        } finally {
+            backToMainMenuHint();
+        }
+    }
+
+    // TODO citation: code taken and modified from WorkRoomApp.java class in JsonSerializationDemo
+    // EFFECTS: save the current total booking in airlines to json file
+    public void saveBooking() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(airlines);
+            jsonWriter.close();
+            System.out.println("Saved current booking to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        } finally {
+            backToMainMenuHint();
+        }
+    }
 
 
 
+//=============================================================================================
+// Sub-menu functionalities
 
     // EFFECTS: just search the flight by given time and destination
     public void justSearchFlight() {
@@ -149,15 +192,8 @@ public class ServiceApp {
     }
 
 
-
-
-
-
-
-
     // MODIFIES: this
     // EFFECTS: start a new booking by creating passenger info
-    // TODO: To be revised
     public void newBooking() {
         Passenger me = createPassenger();
         while (!searchFlight(me.getTime(), me.getDestination())) {
@@ -173,7 +209,7 @@ public class ServiceApp {
     }
 
     // EFFECTS: construct a new passenger with the given time and destination user inputs
-    // TODO: could throw exception: invalid input
+    // TODO: could throw exception: invalid input (implement later phase)
     public Passenger createPassenger() {
         System.out.println("Please input your departing time: (format: 900 for 9:00 am; 1600 for 4:00 pm)");
         int time = input.nextInt();
@@ -203,7 +239,7 @@ public class ServiceApp {
 
     // MODIFIES: p
     // EFFECTS: choose flight by flight No
-    // TODO: could throw exception: invalid input
+    // TODO: could throw exception: invalid input (implement later phase)
     public void chooseFlight(Passenger p) {
         System.out.println("Please choose a flight by entering flight number:");
         String flightNum = input.next();
@@ -215,6 +251,7 @@ public class ServiceApp {
     // EFFECTS: make booking by inputting name & ID
     // TODO: could throw exception: if the passenger's id has already made a book on this flight,
     //       even runService() will throw it to kill the method, but serviceApp() will catch it
+    //       (implement later phase)
     public void makeBook(Passenger p) {
         System.out.println("Please enter your name:");
         String name = input.next();
@@ -252,7 +289,7 @@ public class ServiceApp {
 
     // MODIFIES: this, p
     // EFFECTS: confirm the current booking
-    // TODO: add exception: invalid input
+    // TODO: could throw exception: invalid input (implement later phase)
     public void confirmBook(Passenger p, String flightNum) {
         System.out.println("Confirm or Cancel?  Y/N");
         String decision = input.next();
@@ -270,8 +307,6 @@ public class ServiceApp {
 
 
 
-
-
     // MODIFIES: this
     // EFFECTS: showing user booking canceled
     public void cancelBooking() {
@@ -281,9 +316,9 @@ public class ServiceApp {
         } else {
             System.out.println("Select the booking you want to cancel by entering the flight No.");
             String flightNum = input.next();
-            System.out.println("Confirm cancel: 'Y/N':");
-            String command = input.next();
-            if (command.equals("y")) {
+            System.out.println("Confirm cancel?  Y/N");
+            String decision = input.next();
+            if (decision.equals("y")) {
                 for (Passenger p : results) {
                     if (p.getFlightNum().equals(flightNum)) {
                         airlines.getFlight(flightNum).getPassengerList().remove(p);
@@ -312,8 +347,6 @@ public class ServiceApp {
         }
         return results;
     }
-
-
 
 
 

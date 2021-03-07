@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,8 +16,8 @@ public class FlightTest {
 
     @BeforeEach
     public void setUp() {
-        this.testFlight = new Flight("CA210", 800, "Shanghai");
-        this.testPassenger = new Passenger(800, "Shanghai");
+        this.testFlight = new Flight("CA210", 800, "shanghai");
+        this.testPassenger = new Passenger(800, "shanghai");
     }
 
 
@@ -21,7 +25,7 @@ public class FlightTest {
     public void testConstructor() {
         assertEquals("CA210", testFlight.getFlightNum());
         assertEquals(800, testFlight.getTime());
-        assertEquals("Shanghai", testFlight.getDestination());
+        assertEquals("shanghai", testFlight.getDestination());
         assertTrue(testFlight.getPassengerList().isEmpty());
         assertEquals("O", testFlight.getSeat(1,1));
         assertEquals(Flight.ROW, testFlight.getSeats().size());
@@ -80,5 +84,43 @@ public class FlightTest {
         testFlight.setSeat(2,1);
         assertTrue(testFlight.isSeatOccupied(2,1));
         assertFalse(testFlight.isSeatOccupied(0, 0));
+    }
+
+
+    @Test
+    public void testToJson() {
+        JSONObject json = new JSONObject();
+        json.put("Flight No.", "CA210");
+        json.put("Departure", 800);
+        json.put("Destination", "shanghai");
+        json.put("Seats", testFlight.seatsToJson());
+        json.put("Passengers", testFlight.passengersToJson());
+        assertEquals(json.toString(), testFlight.toJson().toString());
+    }
+
+
+    @Test
+    public void testSeatToJson() {
+        JSONArray jsonSeats = new JSONArray();
+        for (ArrayList<String> row : testFlight.getSeats()) {
+            JSONArray jsonRow = new JSONArray();
+            for (String seat : row) {
+                jsonRow.put(seat);
+            }
+            jsonSeats.put(jsonRow);
+        }
+        assertEquals(jsonSeats.toString(), testFlight.seatsToJson().toString());
+
+    }
+
+    @Test
+    public void testPassengerToJson() {
+        testFlight.addPassenger(testPassenger);
+        JSONArray jsonArray = new JSONArray();
+        for (Passenger p : testFlight.getPassengerList()) {
+            jsonArray.put(p.toJson());
+        }
+        assertEquals(jsonArray.toString(), testFlight.passengersToJson().toString());
+
     }
 }

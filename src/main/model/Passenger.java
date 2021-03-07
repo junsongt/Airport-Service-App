@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -84,6 +86,25 @@ public class Passenger {
     // EFFECTS: set the passenger's departing time
     public void setTime(int time) {
         this.time = time;
+    }
+
+
+
+
+
+
+    // TODO citation: code taken and modified from model package in JsonSerializationDemo
+    // EFFECTS: generate a passenger as json object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Name", name);
+        json.put("ID", id);
+        json.put("Time", time);
+        json.put("Destination", destination);
+        json.put("Flight No.", flightNum);
+        json.put("Row", seatR);
+        json.put("Col", seatC);
+        return json;
     }
 
 }

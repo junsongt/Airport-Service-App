@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +12,13 @@ class PassengerTest {
 
     @BeforeEach
     public void setUp() {
-        this.testPassenger = new Passenger(900, "Vancouver");
+        this.testPassenger = new Passenger(900, "vancouver");
     }
 
     @Test
     public void testConstructor() {
         assertEquals(900, testPassenger.getTime());
-        assertEquals("Vancouver", testPassenger.getDestination());
+        assertEquals("vancouver", testPassenger.getDestination());
 
     }
 
@@ -56,6 +57,24 @@ class PassengerTest {
         assertEquals(700, testPassenger.getTime());
         testPassenger.setTime(2459);
         assertEquals(2459, testPassenger.getTime());
+    }
+
+
+    @Test
+    public void testToJson() {
+        testPassenger.setName("Jason");
+        testPassenger.setID("z6k8l");
+        testPassenger.chooseFlight("CA110");
+        testPassenger.chooseSeat(0,0);
+        JSONObject json = new JSONObject();
+        json.put("Name", "Jason");
+        json.put("ID", "z6k8l");
+        json.put("Time", 900);
+        json.put("Destination", "vancouver");
+        json.put("Flight No.", "CA110");
+        json.put("Row", 0);
+        json.put("Col", 0);
+        assertEquals(json.toString(), testPassenger.toJson().toString());
     }
 
 }

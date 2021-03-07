@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +61,31 @@ public class AirlinesTest {
         assertEquals(2, testAirlines.getFlightList().size());
         testAirlines.addFlight(f3);
         assertEquals(2, testAirlines.getFlightList().size());
+    }
+
+
+    @Test
+    public void testToJson() {
+        Flight f1 = new Flight("CA210", 800, "Shanghai");
+        Flight f2 = new Flight("CA211", 2100, "Vancouver");
+        testAirlines.addFlight(f1);
+        testAirlines.addFlight(f2);
+        JSONObject json = new JSONObject();
+        json.put("Flights", testAirlines.flightListToJson());
+        assertEquals(json.toString(), testAirlines.toJson().toString());
+    }
+
+    @Test
+    public void testFlightListToJson() {
+        Flight f1 = new Flight("CA210", 800, "Shanghai");
+        Flight f2 = new Flight("CA211", 2100, "Vancouver");
+        testAirlines.addFlight(f1);
+        testAirlines.addFlight(f2);
+        JSONArray jsonArray = new JSONArray();
+        for (Flight f : testAirlines.getFlightList()) {
+            jsonArray.put(f.toJson());
+        }
+        assertEquals(jsonArray.toString(), testAirlines.flightListToJson().toString());
     }
 
 

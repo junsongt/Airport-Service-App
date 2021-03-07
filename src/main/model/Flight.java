@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +100,50 @@ public class Flight {
     // EFFECTS: determine if the seat on this flight is occupied
     public boolean isSeatOccupied(int r, int c) {
         return seats.get(r).get(c).equals("X");
+    }
+
+
+
+
+
+
+
+    // TODO citation: code taken and modified from model package in JsonSerializationDemo
+    // EFFECTS: generate a flight as json object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Flight No.", flightNum);
+        json.put("Departure", time);
+        json.put("Destination", destination);
+        json.put("Seats", seatsToJson());
+        json.put("Passengers", passengersToJson());
+        return json;
+    }
+
+
+
+    // EFFECTS: generate seats as json array of json array
+    public JSONArray seatsToJson() {
+        JSONArray jsonSeats = new JSONArray();
+        for (ArrayList<String> row : seats) {
+            JSONArray jsonRow = new JSONArray();
+            for (String seat : row) {
+                jsonRow.put(seat);
+            }
+            jsonSeats.put(jsonRow);
+        }
+        return jsonSeats;
+    }
+
+
+
+    // TODO citation: code taken and modified from model package in JsonSerializationDemo
+    // EFFECTS: generate passenger list as json array
+    public JSONArray passengersToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Passenger p : passengerList) {
+            jsonArray.put(p.toJson());
+        }
+        return jsonArray;
     }
 }

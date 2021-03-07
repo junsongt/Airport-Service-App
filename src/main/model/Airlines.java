@@ -1,5 +1,9 @@
 package model;
 
+import com.sun.xml.internal.bind.v2.TODO;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,29 @@ public class Airlines {
         if (!checkDuplicate(f)) {
             flightList.add(f);
         }
+    }
+
+
+
+
+
+
+    // TODO citation: code taken and modified from model package in JsonSerializationDemo
+    // EFFECTS: generate airlines as json object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Flights", flightListToJson());
+        return json;
+    }
+
+    // TODO citation: code taken and modified from model package in JsonSerializationDemo
+    // EFFECTS: generate flight list as json array
+    public JSONArray flightListToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Flight f : flightList) {
+            jsonArray.put(f.toJson());
+        }
+        return jsonArray;
     }
 
 
