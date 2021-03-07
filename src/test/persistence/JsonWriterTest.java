@@ -1,72 +1,83 @@
 package persistence;
 
 import model.Airlines;
+import model.Flight;
+import model.Passenger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 // TODO citation: code taken and modified from test package in JsonSerializationDemo
 public class JsonWriterTest extends JsonTest {
-//    private Airlines testAirlines;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        testAirlines = new Airlines();
-//    }
-//
-//    @Test
-//    public void testWriterInvalidFile() {
-//        try {
-//            JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
-//            writer.open();
-//            fail("IOException was expected");
-//        } catch (IOException e) {
-//            // pass
-//        }
-//    }
-//
-//    @Test
-//    public void testWriterEmptyWorkroom() {
-//        try {
-//            JsonWriter writer = new JsonWriter("./data/testWriterEmptyBooking.json");
-//            writer.open();
-//            writer.write(testAirlines);
-//            writer.close();
-//
-//            JsonReader reader = new JsonReader("./data/testWriterEmptyBooking.json");
-//            testAirlines = reader.readAirlines();
-//            assertEquals("My work room", wr.getName());
-//            assertEquals(0, wr.numThingies());
-//        } catch (IOException e) {
-//            fail("Exception should not have been thrown");
-//        }
-//    }
-//
-//    @Test
-//    public void testWriterGeneralWorkroom() {
-//        try {
-//            wr.addThingy(new Thingy("saw", Category.METALWORK));
-//            wr.addThingy(new Thingy("needle", Category.STITCHING));
-//            JsonWriter writer = new JsonWriter("./data/testWriterBookings.json");
-//            writer.open();
-//            writer.write(wr);
-//            writer.close();
-//
-//            JsonReader reader = new JsonReader("./data/testWriterBookings.json");
-//            testAirlines = reader.readAirlines();
-//            assertEquals("My work room", wr.getName());
-//            List<Thingy> thingies = wr.getThingies();
-//            assertEquals(2, thingies.size());
-//            checkThingy("saw", Category.METALWORK, thingies.get(0));
-//            checkThingy("needle", Category.STITCHING, thingies.get(1));
-//
-//        } catch (IOException e) {
-//            fail("Exception should not have been thrown");
-//        }
-//    }
+    private Airlines testAirlines;
+    private Flight testFlight;
+
+    @BeforeEach
+    public void setUp() {
+        testAirlines = new Airlines();
+        testFlight = new Flight("CA110", 800, "vancouver");
+        testAirlines.addFlight(testFlight);
+    }
+
+    @Test
+    public void testWriterInvalidFile() {
+        try {
+            JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
+            writer.open();
+            fail("IOException was expected");
+        } catch (IOException e) {
+            // pass
+        }
+    }
+
+    @Test
+    public void testWriterEmptyBookingAirlines() {
+        try {
+            JsonWriter writer = new JsonWriter("./data/testWriterEmptyBooking.json");
+            writer.open();
+            writer.write(testAirlines);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterEmptyBooking.json");
+            Airlines newAirlines = reader.readAirlines();
+            assertEquals(1, newAirlines.getFlightList().size());
+            checkEmptyBooking(newAirlines);
+        } catch (IOException e) {
+            fail("Exception should not have been thrown");
+        }
+    }
+
+    @Test
+    public void testWriterGeneralWorkroom() {
+        try {
+            Passenger testPassenger = new Passenger(800, "vancouver");
+            testPassenger.setName("Jason");
+            testPassenger.setID("z6k8l");
+            testPassenger.chooseFlight("CA110");
+            testPassenger.chooseSeat(0,0);
+            testFlight.setSeat(0,0);
+            testFlight.addPassenger(testPassenger);
+            JsonWriter writer = new JsonWriter("./data/testWriterBookings.json");
+            writer.open();
+            writer.write(testAirlines);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterBookings.json");
+            Airlines newAirlines = reader.readAirlines();
+            assertEquals(1, newAirlines.getFlightList().size());
+
+            Flight newFlight = newAirlines.getFlightList().get(0);
+
+            assertEquals(1, newFlight.getPassengerList().size());
+            checkPassenger("Jason", "z6k8l", newFlight.getPassengerList().get(0));
+            assertTrue(newFlight.isSeatOccupied(0,0));
+
+        } catch (IOException e) {
+            fail("Exception should not have been thrown");
+        }
+    }
 }

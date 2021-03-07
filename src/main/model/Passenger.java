@@ -30,7 +30,7 @@ public class Passenger {
         return this.name;
     }
 
-    public String getId() {
+    public String getID() {
         return this.id;
     }
 

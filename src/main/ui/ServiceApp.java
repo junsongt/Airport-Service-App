@@ -21,7 +21,7 @@ public class ServiceApp {
     private JsonReader jsonReader;
 
 
-    // EFFECTS: constructor with building today's airlines, and building flow structure of running app
+    // EFFECTS: constructor with building today's airlines, and show main menu
     public ServiceApp() throws FileNotFoundException {
         this.airlines = new Airlines();
         buildAirlines();
@@ -61,7 +61,7 @@ public class ServiceApp {
         System.out.println("Save the current booking info => Press 'v'.");
     }
 
-    // EFFECTS: show the sub-menu within the runService functionality on app
+    // EFFECTS: show the sub-menu within the startService functionality on app
     public void subMenu() {
         System.out.println("Start new booking => Press 'n'.");
         System.out.println("Search a flight => Press 's'.");
@@ -332,6 +332,7 @@ public class ServiceApp {
     }
 
 
+    // EFFECTS: search the previous booking(s) by passenger name & ID
     public ArrayList<Passenger> searchBooking() {
         System.out.println("Please enter your name:");
         String name = input.next();
@@ -366,7 +367,7 @@ public class ServiceApp {
     // EFFECTS: print out all the passenger info after booking
     public void printPassengerInfo(Passenger p) {
         System.out.println("Passenger Name: " + p.getName());
-        System.out.println("Passenger ID: " + p.getId());
+        System.out.println("Passenger ID: " + p.getID());
         System.out.println("Flight No: " + p.getFlightNum()
                 + ", " + "Destination: " + p.getDestination()
                 + ", " + "Departure: " + p.getTime());

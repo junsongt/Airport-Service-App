@@ -3,9 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 
 // represent a flight with flight num, departing time, destination, passenger list, seats layout
@@ -90,7 +88,7 @@ public class Flight {
     // EFFECTS: find the passenger in this flight by given passenger's name & ID
     public Passenger findPassenger(String name, String id) {
         for (Passenger p : passengerList) {
-            if (p.getName().equals(name) && p.getId().equals(id)) {
+            if (p.getName().equals(name) && p.getID().equals(id)) {
                 return p;
             }
         }

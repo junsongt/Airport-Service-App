@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PassengerTest {
@@ -46,9 +45,9 @@ class PassengerTest {
     @Test
     public void testChangeID() {
         testPassenger.setID("z6k8l");
-        assertEquals("z6k8l", testPassenger.getId());
+        assertEquals("z6k8l", testPassenger.getID());
         testPassenger.setID("a1b2c");
-        assertEquals("a1b2c", testPassenger.getId());
+        assertEquals("a1b2c", testPassenger.getID());
     }
 
     @Test

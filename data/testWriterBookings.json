@@ -1,0 +1,36 @@
+{"Flights": [{
+    "Destination": "vancouver",
+    "Passengers": [{
+        "Destination": "vancouver",
+        "Col": 0,
+        "Flight No.": "CA110",
+        "Time": 800,
+        "ID": "z6k8l",
+        "Row": 0,
+        "Name": "Jason"
+    }],
+    "Departure": 800,
+    "Flight No.": "CA110",
+    "Seats": [
+        [
+            "X",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ]
+    ]
+}]}

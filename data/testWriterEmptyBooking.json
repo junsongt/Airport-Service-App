@@ -1,0 +1,28 @@
+{"Flights": [{
+    "Destination": "vancouver",
+    "Passengers": [],
+    "Departure": 800,
+    "Flight No.": "CA110",
+    "Seats": [
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ],
+        [
+            "O",
+            "O"
+        ]
+    ]
+}]}
