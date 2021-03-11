@@ -1,0 +1,142 @@
+{"Flights": [
+    {
+        "Destination": "vancouver",
+        "Passengers": [],
+        "Departure": 800,
+        "Flight No.": "CA110",
+        "Seats": [
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ]
+        ]
+    },
+    {
+        "Destination": "toronto",
+        "Passengers": [],
+        "Departure": 1200,
+        "Flight No.": "CA210",
+        "Seats": [
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ]
+        ]
+    },
+    {
+        "Destination": "shanghai",
+        "Passengers": [],
+        "Departure": 1600,
+        "Flight No.": "CA310",
+        "Seats": [
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ]
+        ]
+    },
+    {
+        "Destination": "vancouver",
+        "Passengers": [],
+        "Departure": 2000,
+        "Flight No.": "CA410",
+        "Seats": [
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ]
+        ]
+    },
+    {
+        "Destination": "shanghai",
+        "Passengers": [],
+        "Departure": 2400,
+        "Flight No.": "CA510",
+        "Seats": [
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ],
+            [
+                "O",
+                "O"
+            ]
+        ]
+    }
+]}
