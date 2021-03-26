@@ -20,8 +20,6 @@ public class BookingPanel extends ContentPanel {
         select.addActionListener(new SelectFlightListener());
         add(select, BorderLayout.PAGE_END);
 
-
-
     }
 
     public class SelectFlightListener implements ActionListener {

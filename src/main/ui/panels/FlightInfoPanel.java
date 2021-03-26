@@ -18,6 +18,19 @@ public class FlightInfoPanel extends ContentPanel {
         passengerInfoListModel = new DefaultListModel<>();
         loadListPanel(passengerInfoListModel);
 
+        loadOptionPanel();
+
+    }
+
+
+    public void loadPassengerInfo(ArrayList<ArrayList<String>> passengerInfoList) {
+        for (ArrayList<String> passengerInfo : passengerInfoList) {
+            passengerInfoListModel.addElement(passengerInfo);
+        }
+    }
+
+
+    public void loadOptionPanel() {
         back = new JButton("Back to Main");
         back.addActionListener(new ActionListener() {
             @Override
@@ -26,12 +39,6 @@ public class FlightInfoPanel extends ContentPanel {
             }
         });
         add(back, BorderLayout.PAGE_END);
-    }
 
-
-    public void loadPassengerInfo(ArrayList<ArrayList<String>> passengerInfoList) {
-        for (ArrayList<String> passengerInfo : passengerInfoList) {
-            passengerInfoListModel.addElement(passengerInfo);
-        }
     }
 }

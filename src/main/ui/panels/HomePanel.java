@@ -9,26 +9,32 @@ import java.awt.event.ActionListener;
 
 public class HomePanel extends ContentPanel {
     private JLabel welcome;
-    private JLabel message;
+
+    private JButton save;
+    private JButton load;
 
     public HomePanel(ServiceAppGUI gui) {
         super(gui);
         welcome = new JLabel("Welcome To The Airport!", SwingConstants.CENTER);
         add(welcome, BorderLayout.PAGE_START);
 
-        message = new JLabel("", SwingConstants.CENTER);
-        add(message, BorderLayout.CENTER);
+        finalMessage = new JLabel("", SwingConstants.CENTER);
+        add(finalMessage, BorderLayout.CENTER);
 
+        loadOptionPanel();
+    }
+
+
+    public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
-
 
         save = new JButton("Save all the current booking information");
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.saveBooking();
-                message.setText("Booking saved!");
+                finalMessage.setText("Booking saved!");
             }
         });
         optionPanel.add(save, BorderLayout.NORTH);
@@ -38,12 +44,11 @@ public class HomePanel extends ContentPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.loadBooking();
-                message.setText("Booking loaded!");
+                finalMessage.setText("Booking loaded!");
             }
         });
         optionPanel.add(load, BorderLayout.SOUTH);
 
         add(optionPanel, BorderLayout.PAGE_END);
-
     }
 }

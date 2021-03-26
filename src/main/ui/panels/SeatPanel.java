@@ -13,41 +13,17 @@ import java.util.ArrayList;
 
 public class SeatPanel extends ContentPanel {
 
-    JPanel seatInfoArea;
-
-    JTable seats;
-
-
-
-    JButton select;
+    private JPanel seatInfoArea;
+    private JTable seats;
+    private JButton select;
 
     public SeatPanel(ServiceAppGUI gui) {
         super(gui);
 
         loadSeatInfoArea();
 
-        optionPanel = new JPanel();
-        optionPanel.setLayout(new BorderLayout());
+        loadOptionPanel();
 
-        proceed = new JButton("Proceed to confirm");
-        proceed.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchPanels(new ConfirmBookingPanel(gui));
-            }
-        });
-        optionPanel.add(proceed, BorderLayout.WEST);
-
-        back = new JButton("Back");
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchPanels(new PassengerIdentityPanel(gui));
-            }
-        });
-        optionPanel.add(back, BorderLayout.EAST);
-
-        add(optionPanel, BorderLayout.PAGE_END);
     }
 
 
@@ -92,9 +68,33 @@ public class SeatPanel extends ContentPanel {
 
         add(seatInfoArea, BorderLayout.CENTER);
 
-
     }
 
+
+    public void loadOptionPanel() {
+        optionPanel = new JPanel();
+        optionPanel.setLayout(new BorderLayout());
+
+        proceed = new JButton("Proceed to confirm");
+        proceed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanels(new ConfirmBookingPanel(gui));
+            }
+        });
+        optionPanel.add(proceed, BorderLayout.WEST);
+
+        back = new JButton("Back");
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanels(new PassengerIdentityPanel(gui));
+            }
+        });
+        optionPanel.add(back, BorderLayout.EAST);
+
+        add(optionPanel, BorderLayout.PAGE_END);
+    }
 
 
 

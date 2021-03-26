@@ -12,10 +12,15 @@ public class ConfirmCancelPanel extends ContentPanel {
     public ConfirmCancelPanel(ServiceAppGUI gui) {
         super(gui);
 
-        message = new JLabel("You have successfully canceled your booking", SwingConstants.CENTER);
-        add(message, BorderLayout.CENTER);
+        finalMessage = new JLabel("You have successfully canceled your booking", SwingConstants.CENTER);
+        add(finalMessage, BorderLayout.CENTER);
+
+        loadOptionPanel();
+
+    }
 
 
+    public void loadOptionPanel() {
         back = new JButton("Back to Main");
         back.addActionListener(new ActionListener() {
             @Override
@@ -23,7 +28,10 @@ public class ConfirmCancelPanel extends ContentPanel {
                 switchPanels(new CancelPanel(gui));
             }
         });
+
         add(back, BorderLayout.PAGE_END);
 
     }
+
+
 }

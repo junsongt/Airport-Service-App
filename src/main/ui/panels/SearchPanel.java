@@ -12,32 +12,15 @@ import java.util.ArrayList;
 
 public class SearchPanel extends ContentPanel {
 
-    JButton clearSearch;
-    JButton select;
+    private JButton clearResult;
+    private JButton select;
 
     public SearchPanel(ServiceAppGUI gui) {
         super(gui);
 
         loadSearchArea();
 
-        optionPanel = new JPanel();
-        optionPanel.setLayout(new BorderLayout());
-
-        select = new JButton("Select flight");
-        select.addActionListener(new SelectFlightListener());
-        optionPanel.add(select, BorderLayout.WEST);
-
-        clearSearch = new JButton("Clear search results");
-        clearSearch.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchPanels(new SearchPanel(gui));
-            }
-        });
-
-        optionPanel.add(clearSearch, BorderLayout.EAST);
-
-        add(optionPanel, BorderLayout.PAGE_END);
+        loadOptionPanel();
 
     }
 
@@ -60,5 +43,26 @@ public class SearchPanel extends ContentPanel {
         }
     }
 
+    public void loadOptionPanel() {
+        optionPanel = new JPanel();
+        optionPanel.setLayout(new BorderLayout());
+
+        select = new JButton("Select flight for detail");
+        select.addActionListener(new SelectFlightListener());
+        optionPanel.add(select, BorderLayout.WEST);
+
+        clearResult = new JButton("Clear search results");
+        clearResult.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanels(new SearchPanel(gui));
+            }
+        });
+
+        optionPanel.add(clearResult, BorderLayout.EAST);
+
+        add(optionPanel, BorderLayout.PAGE_END);
+
+    }
 }
 

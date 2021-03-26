@@ -14,49 +14,31 @@ import java.util.ArrayList;
 
 public class ContentPanel extends JPanel {
     // Controller
-    ServiceAppGUI gui;
-    Passenger customer;
-
-    JLabel message;
+    protected ServiceAppGUI gui;
+    protected Passenger customer;
 
     // For search
-    JPanel searchArea;
-    JLabel time;
-    JLabel destination;
-    JTextField timeInput;
-    JTextField destinationInput;
-    JButton search;
+    protected JPanel searchArea;
+    protected JLabel time;
+    protected JLabel destination;
+    protected JTextField timeInput;
+    protected JTextField destinationInput;
+    protected JButton search;
 
-    JScrollPane listScrollPane;
-    JList listArea;
-    DefaultListModel<String> flightList;
-    DefaultListModel<ArrayList<String>> bookingList;
-
-
+    protected JList listArea;
+    protected DefaultListModel<String> flightList;
 
     // For passenger info input
-    JPanel passengerInfoArea;
-    JPanel findBookingArea;
+    protected JLabel name;
+    protected JLabel id;
+    protected JTextField nameInput;
+    protected JTextField idInput;
 
-    JLabel name;
-    JLabel id;
-    JTextField nameInput;
-    JTextField idInput;
-    JButton find;
-
-
-    // For seat info
-
-
-    JPanel optionPanel;
-    JButton proceed;
-    JButton back;
-
-
-    // For save & load
-    JButton save;
-    JButton load;
-
+    // For option area
+    protected JPanel optionPanel;
+    protected JButton proceed;
+    protected JButton back;
+    protected JLabel finalMessage;
 
 
     public ContentPanel(ServiceAppGUI gui) {
@@ -66,7 +48,30 @@ public class ContentPanel extends JPanel {
     }
 
 
+    public void switchPanels(JPanel panel) {
+        this.removeAll();
+        this.add(panel);
+        this.validate();
+        this.repaint();
+    }
 
+
+    public void loadListPanel(DefaultListModel listModel) {
+        listArea = new JList<>(listModel);
+        listArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listArea.setSelectedIndex(0);
+        listArea.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+            }
+        });
+        listArea.setVisibleRowCount(3);
+        JScrollPane listScrollPane = new JScrollPane(listArea);
+        listScrollPane.setViewportView(listArea);
+
+        add(listScrollPane, BorderLayout.CENTER);
+
+    }
 
 
     public void loadSearchArea() {
@@ -84,103 +89,17 @@ public class ContentPanel extends JPanel {
 
         flightList = new DefaultListModel<>();
 
-
         search = new JButton("Search Flight");
         search.addActionListener(new SearchFlightListener());
         searchArea.add(search);
 
         add(searchArea, BorderLayout.NORTH);
 
-
         loadListPanel(flightList);
 
     }
 
-    public void loadFindBookingArea() {
-        findBookingArea = new JPanel();
-        findBookingArea.setLayout(new GridLayout(3, 10, 30,10));
 
-        name = new JLabel("Name");
-        findBookingArea.add(name);
-        nameInput = new JTextField();
-        findBookingArea.add(nameInput);
-        id = new JLabel("ID");
-        findBookingArea.add(id);
-        idInput = new JTextField();
-        findBookingArea.add(idInput);
-
-        bookingList = new DefaultListModel<>();
-
-        find = new JButton("Find previous booking");
-        find.addActionListener(new SearchBookingListener());
-        findBookingArea.add(find);
-
-        add(findBookingArea, BorderLayout.NORTH);
-
-        loadListPanel(bookingList);
-
-    }
-
-
-    public void loadPassengerInfoArea() {
-        passengerInfoArea = new JPanel();
-        passengerInfoArea.setLayout(new GridLayout(3, 10, 30,10));
-
-        name = new JLabel("Name");
-        passengerInfoArea.add(name);
-        nameInput = new JTextField();
-        passengerInfoArea.add(nameInput);
-        id = new JLabel("ID");
-        passengerInfoArea.add(id);
-        idInput = new JTextField();
-        passengerInfoArea.add(idInput);
-
-        add(passengerInfoArea, BorderLayout.NORTH);
-
-    }
-
-
-
-    public void switchPanels(JPanel panel) {
-        this.removeAll();
-        this.add(panel);
-        this.validate();
-        this.repaint();
-    }
-
-
-
-
-    public void loadListPanel(DefaultListModel listModel) {
-        listArea = new JList<>(listModel);
-        listArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        listArea.setSelectedIndex(0);
-        listArea.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-//                if (e.getValueIsAdjusting() == false) {
-//                    if (listArea.getSelectedIndex() == -1) {
-//                        //No selection, disable search button.
-//                        search.setEnabled(false);
-//                    } else {
-//                        //Selection, enable the search button.
-//                        search.setEnabled(true);
-//                    }
-//                }
-            }
-        });
-        listArea.setVisibleRowCount(3);
-        JScrollPane listScrollPane = new JScrollPane(listArea);
-        listScrollPane.setViewportView(listArea);
-
-        add(listScrollPane, BorderLayout.CENTER);
-
-    }
-
-
-
-
-    // ActionListeners:
     public class SearchFlightListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -193,17 +112,7 @@ public class ContentPanel extends JPanel {
         }
     }
 
-    public class SearchBookingListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String name = nameInput.getText();
-            String id = idInput.getText();
-            ArrayList<ArrayList<String>> results = gui.searchBooking(name, id);
-            for (ArrayList<String> passengerInfo : results) {
-                bookingList.addElement(passengerInfo);
-            }
-        }
-    }
+
 
 
 

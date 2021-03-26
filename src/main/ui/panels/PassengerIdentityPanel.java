@@ -9,11 +9,49 @@ import java.awt.event.ActionListener;
 
 public class PassengerIdentityPanel extends ContentPanel {
 
+    private JPanel passengerInfoArea;
+
     public PassengerIdentityPanel(ServiceAppGUI gui) {
         super(gui);
 
         loadPassengerInfoArea();
 
+        loadOptionPanel();
+
+    }
+
+
+    public class PassengerIdentityListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String name = nameInput.getText();
+            String id = idInput.getText();
+            gui.makeBook(name, id);
+
+            switchPanels(new SeatPanel(gui));
+        }
+    }
+
+
+    public void loadPassengerInfoArea() {
+        passengerInfoArea = new JPanel();
+        passengerInfoArea.setLayout(new GridLayout(3, 10, 30,10));
+
+        name = new JLabel("Name");
+        passengerInfoArea.add(name);
+        nameInput = new JTextField();
+        passengerInfoArea.add(nameInput);
+        id = new JLabel("ID");
+        passengerInfoArea.add(id);
+        idInput = new JTextField();
+        passengerInfoArea.add(idInput);
+
+        add(passengerInfoArea, BorderLayout.NORTH);
+
+    }
+
+
+    public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
 
@@ -32,17 +70,5 @@ public class PassengerIdentityPanel extends ContentPanel {
 
         add(optionPanel, BorderLayout.PAGE_END);
 
-    }
-
-
-    public class PassengerIdentityListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String name = nameInput.getText();
-            String id = idInput.getText();
-            gui.makeBook(name, id);
-
-            switchPanels(new SeatPanel(gui));
-        }
     }
 }

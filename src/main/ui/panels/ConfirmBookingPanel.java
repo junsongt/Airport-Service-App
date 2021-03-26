@@ -9,14 +9,22 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ConfirmBookingPanel extends ContentPanel {
-    JButton confirm;
+
+    private JButton confirm;
 
     public ConfirmBookingPanel(ServiceAppGUI gui) {
         super(gui);
 
-        message = new JLabel(printBookingInfoBrief(), SwingConstants.CENTER);
-        add(message, BorderLayout.CENTER);
+        finalMessage = new JLabel(printBookingInfoBrief(), SwingConstants.CENTER);
+        add(finalMessage, BorderLayout.CENTER);
 
+        loadOptionPanel();
+
+    }
+
+
+
+    public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
 
@@ -25,8 +33,8 @@ public class ConfirmBookingPanel extends ContentPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.confirmBook(gui.getCustomer());
-                message.setText("You have successfully booked your flight!");
-                add(message, BorderLayout.CENTER);
+                finalMessage.setText("You have successfully booked your flight!");
+                add(finalMessage, BorderLayout.CENTER);
             }
         });
         optionPanel.add(confirm, BorderLayout.WEST);
@@ -41,12 +49,8 @@ public class ConfirmBookingPanel extends ContentPanel {
         optionPanel.add(back, BorderLayout.EAST);
 
         add(optionPanel, BorderLayout.PAGE_END);
-
-
-
-
-
     }
+
 
 
     public String printBookingInfoBrief() {
