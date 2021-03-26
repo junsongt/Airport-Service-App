@@ -123,4 +123,11 @@ public class FlightTest {
         assertEquals(jsonArray.toString(), testFlight.passengersToJson().toString());
 
     }
+
+
+    @Test
+    public void testGenerateFlightInfo() {
+        assertEquals("Flight No: CA210, Departure: 800, Destination: shanghai",
+                testFlight.generateFlightInfo());
+    }
 }

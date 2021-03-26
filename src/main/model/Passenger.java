@@ -91,6 +91,27 @@ public class Passenger {
 
 
 
+    // EFFECTS: produce a list containing passenger's information
+    public ArrayList<String> generatePassengerInfo() {
+        ArrayList<String> passengerInfo = new ArrayList<>();
+        String name = "Passenger Name: " + getName();
+        String id = "Passenger ID: " + getID();
+        String flightNum = "Flight No: " + getFlightNum();
+        String destination = "Destination: " + getDestination();
+        String departure = "Departure: " + getTime();
+        String row = "Row: " + getRow();
+        String col = "Column: " + getCol();
+        passengerInfo.add(name);
+        passengerInfo.add(id);
+        passengerInfo.add(flightNum);
+        passengerInfo.add(destination);
+        passengerInfo.add(departure);
+        passengerInfo.add(row);
+        passengerInfo.add(col);
+        return passengerInfo;
+    }
+
+
 
 
     // TODO citation: code taken and modified from model package in JsonSerializationDemo

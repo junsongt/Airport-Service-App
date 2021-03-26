@@ -103,6 +103,12 @@ public class Flight {
 
 
 
+    // EFFECTS: produce a single string with flight information
+    public String generateFlightInfo() {
+        return ("Flight No: " + getFlightNum()
+                + ", " + "Departure: " + getTime()
+                + ", " + "Destination: " + getDestination());
+    }
 
 
 
