@@ -16,11 +16,5 @@ public class Main {
             System.out.println("Unable to run application: file not found");
         }
 
-//        Passenger p = new Passenger(700, "vancouver");
-//        p.setName("jason");
-//        p.setID("12345");
-//        p.chooseSeat(1,2);
-//        p.chooseFlight("CA110");
-//        System.out.println(p.generatePassengerInfo());
     }
 }

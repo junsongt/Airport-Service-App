@@ -11,6 +11,8 @@ public class PassengerIdentityPanel extends ContentPanel {
 
     private JPanel passengerInfoArea;
 
+
+    // EFFECTS: constructing a panel with controller for user to input personal info and option
     public PassengerIdentityPanel(ServiceAppGUI gui) {
         super(gui);
 
@@ -21,6 +23,7 @@ public class PassengerIdentityPanel extends ContentPanel {
     }
 
 
+    // EFFECTS: define a new ActionListener related to creating new passenger
     public class PassengerIdentityListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -32,7 +35,8 @@ public class PassengerIdentityPanel extends ContentPanel {
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: load a panel for user input of name & id
     public void loadPassengerInfoArea() {
         passengerInfoArea = new JPanel();
         passengerInfoArea.setLayout(new GridLayout(3, 10, 30,10));
@@ -51,6 +55,8 @@ public class PassengerIdentityPanel extends ContentPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: load option area with proceed & back button
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

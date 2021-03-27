@@ -57,8 +57,8 @@ public class JsonWriterTest extends JsonTest {
             Passenger testPassenger = new Passenger(800, "vancouver");
             testPassenger.setName("Jason");
             testPassenger.setID("z6k8l");
-            testPassenger.chooseFlight("CA110");
-            testPassenger.chooseSeat(0,0);
+            testPassenger.setFlight("CA110");
+            testPassenger.setSeat(0,0);
             testFlight.setSeat(0,0);
             testFlight.addPassenger(testPassenger);
             JsonWriter writer = new JsonWriter("./data/testWriterBookings.json");

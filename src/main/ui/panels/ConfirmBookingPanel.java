@@ -12,8 +12,11 @@ public class ConfirmBookingPanel extends ContentPanel {
 
     private JButton confirm;
 
+    // EFFECTS: construct a panel with controller for user to confirm the booking
     public ConfirmBookingPanel(ServiceAppGUI gui) {
         super(gui);
+
+        loadImage();
 
         finalMessage = new JLabel(printBookingInfoBrief(), SwingConstants.CENTER);
         add(finalMessage, BorderLayout.CENTER);
@@ -23,7 +26,8 @@ public class ConfirmBookingPanel extends ContentPanel {
     }
 
 
-
+    // MODIFIES: this
+    // EFFECTS: load the option area with confirm button & back button
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
@@ -34,7 +38,7 @@ public class ConfirmBookingPanel extends ContentPanel {
             public void actionPerformed(ActionEvent e) {
                 gui.confirmBook(gui.getCustomer());
                 finalMessage.setText("You have successfully booked your flight!");
-                add(finalMessage, BorderLayout.CENTER);
+                finalMessage.setIcon(okIcon);
             }
         });
         optionPanel.add(confirm, BorderLayout.WEST);
@@ -53,6 +57,7 @@ public class ConfirmBookingPanel extends ContentPanel {
 
 
 
+    // EFFECTS: display the passenger's info line by line on the JLabel
     public String printBookingInfoBrief() {
         ArrayList<String> textList = gui.getCustomer().generatePassengerInfo();
         String text = "<html>";
@@ -64,5 +69,6 @@ public class ConfirmBookingPanel extends ContentPanel {
         return (text);
 
     }
+
 
 }

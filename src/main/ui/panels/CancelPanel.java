@@ -16,6 +16,7 @@ public class CancelPanel extends ContentPanel {
     private JButton find;
     private DefaultListModel<ArrayList<String>> bookingList;
 
+    // EFFECTS: construct a panel with controller for user to cancel the previous booking
     public CancelPanel(ServiceAppGUI gui) {
         super(gui);
 
@@ -26,6 +27,8 @@ public class CancelPanel extends ContentPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: load a previous booking searching area
     public void loadFindBookingArea() {
         findBookingArea = new JPanel();
         findBookingArea.setLayout(new GridLayout(3, 10, 30,10));
@@ -51,6 +54,7 @@ public class CancelPanel extends ContentPanel {
     }
 
 
+    // EFFECTS: define a new ActionListener related to display previous booking when search is clicked
     public class SearchBookingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -64,6 +68,7 @@ public class CancelPanel extends ContentPanel {
     }
 
 
+    // EFFECTS: define a new ActionListener related to canceling previous booking when cancel is clicked
     public class CancelBookingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -80,7 +85,8 @@ public class CancelPanel extends ContentPanel {
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: load option area with cancel button & clear search results button
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

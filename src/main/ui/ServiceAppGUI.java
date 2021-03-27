@@ -15,11 +15,10 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class ServiceAppGUI extends JFrame {
-    private Scanner input;
+
     private Airlines airlines;
     private static final String JSON_STORE = "./data/airlines.json";
     private JsonWriter jsonWriter;
@@ -45,9 +44,8 @@ public class ServiceAppGUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: TODO
+    // EFFECTS: load the main window for app to run
     public void loadMainWindow() {
-
         this.setTitle("Airport Service");
         this.setPreferredSize(new Dimension(500, 500));
 
@@ -61,8 +59,9 @@ public class ServiceAppGUI extends JFrame {
         setVisible(true);
     }
 
+
     // MODIFIES: this
-    // EFFECTS: TODO
+    // EFFECTS: load the tabbed pane embed in the main window frame
     private void loadServicePanels() {
         JPanel homePanel = new HomePanel(this);
         JPanel bookingPanel = new BookingPanel(this);
@@ -71,11 +70,8 @@ public class ServiceAppGUI extends JFrame {
 
         sidebar.addTab("Home", homePanel);
         sidebar.addTab("New Booking", bookingPanel);
-//        sidebar.setTitleAt(0,"New Booking");
         sidebar.addTab("Search Flight", searchPanel);
-//        sidebar.setTitleAt(1, "Search Flight");
         sidebar.addTab("Cancel Booking", cancelPanel);
-//        sidebar.setTitleAt(2, "Cancel Booking");
     }
 
 
@@ -94,6 +90,7 @@ public class ServiceAppGUI extends JFrame {
         airlines.addFlight(f5);
     }
 
+    // getters
     public Airlines getAirlines() {
         return airlines;
     }
@@ -132,9 +129,9 @@ public class ServiceAppGUI extends JFrame {
 
 
 //=============================================================================================
-// Sub-menu functionalities
+// Search functionalities
 
-    // EFFECTS: auto-search flight with given time & destination. If found, show all found, else false
+    // EFFECTS: auto-search flight with given time & destination. show all the results
     public ArrayList<String> searchFlight(int time, String destination) {
         ArrayList<String> results = new ArrayList<>();
         for (Flight f : airlines.getFlightList()) {
@@ -142,29 +139,29 @@ public class ServiceAppGUI extends JFrame {
                 results.add(f.generateFlightInfo());
             }
         }
-        if (results.isEmpty()) {
-            return new ArrayList<>();
-        } else {
-            return results;
-        }
+        return results;
     }
 
 
-    // MODIFIES: this
-    // EFFECTS: start a new booking by creating passenger info
-//    public void newBooking() {
-//        Passenger me = createPassenger(time, destination);
-//
-//        chooseFlight(me);
-//        String flightNum = me.getFlightNum();
-//        makeBook(me);
-//        chooseSeat(me);
-//        confirmBook(me, flightNum);
-//        backToSubMenuHint();
-//    }
+    // EFFECTS: search the previous booking(s) by passenger's name & ID
+    public ArrayList<ArrayList<String>> searchBooking(String name, String id) {
+        ArrayList<ArrayList<String>> results = new ArrayList<>();
+        for (Flight f : airlines.getFlightList()) {
+            Passenger p = f.findPassenger(name, id);
+            if (p != null) {
+                results.add(p.generatePassengerInfo());
+            }
+        }
+        return results;
+    }
 
+
+//=================================================================================================
+// Other functionalities
+
+    // MODIFIES: this
     // EFFECTS: construct a new passenger with the given time and destination user inputs
-    // TODO: could throw exception: invalid input (implement later phase)
+    // TODO: could throw exception: invalid input (implement later)
     public void createPassenger(int time, String destination) {
         customer = new Passenger(time, destination);
     }
@@ -172,111 +169,53 @@ public class ServiceAppGUI extends JFrame {
     
 
 
-    // MODIFIES: p
-    // EFFECTS: make booking by inputting name & ID
+    // MODIFIES: this
+    // EFFECTS: make booking by given passenger's name & ID, and set departing time
     // TODO: could throw exception: if the passenger's id has already made a book on this flight,
     //       even runService() will throw it to kill the method, but serviceApp() will catch it
-    //       (implement later phase)
+    //       (implement later)
     public void makeBook(String name, String id) {
         Flight f = airlines.getFlight(customer.getFlightNum());
-//        for (Passenger i : f.getPassengerList()) {
-//            if (i.getId().equals(id)) {
-//                System.out.println("This ID has already made a book on this flight.");
-//                return false;
-//            }
-//        }
         customer.setName(name);
         customer.setID(id);
         customer.setTime(f.getTime());
-//        return true;
     }
 
 
-//    // MODIFIES: p
-//    // EFFECTS: choose seat by choose row & col No
-//    public void chooseSeat(Passenger p) {
-//        System.out.println("Please choose your seat by entering row number and column number:");
-//        Flight f = airlines.getFlight(p.getFlightNum());
-//        printSeats(f);
-//        int row = input.nextInt();
-//        int col = input.nextInt();
-//        while (f.isSeatOccupied(row, col)) {
-//            System.out.println("This seat is booked. Please choose another seat:");
-//            row = input.nextInt();
-//            col = input.nextInt();
-//        }
-//        p.chooseSeat(row, col);
-//    }
+    // MODIFIES: p
+    // EFFECTS: choose seat by setting row & col No
+    public void chooseSeat(Passenger p, int row, int col) {
+        Flight f = airlines.getFlight(p.getFlightNum());
 
-    // MODIFIES: this, p
+        if (!f.isSeatOccupied(row, col)) {
+            p.setSeat(row, col);
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: confirm the current booking
-    // TODO: could throw exception: invalid input (implement later phase)
+    // TODO: could throw exception: invalid input (implement later)
     public void confirmBook(Passenger p) {
         String flightNum = p.getFlightNum();
         airlines.getFlight(flightNum).addPassenger(p);
         airlines.getFlight(flightNum).setSeat(p.getRow(), p.getCol());
-
     }
 
 
-
-
-    // EFFECTS: search the previous booking(s) by passenger name & ID
-    public ArrayList<ArrayList<String>> searchBooking(String name, String id) {
-        ArrayList<ArrayList<String>> results = new ArrayList<>();
-        for (Flight f : airlines.getFlightList()) {
-            Passenger p = f.findPassenger(name, id);
-            if (p != null) {
-                results.add(p.generatePassengerInfo());
-
-            }
-        }
-        return results;
-    }
 
 
     // MODIFIES: this
-    // EFFECTS: showing user booking canceled
+    // EFFECTS: cancel user's booking and release seat
     public void cancelBooking(String flightNum, String name, String id) {
         Flight flight = airlines.getFlight(flightNum);
         Passenger p = flight.findPassenger(name, id);
 
         flight.getPassengerList().remove(p);
         flight.releaseSeat(p.getRow(), p.getCol());
-
     }
 
 
 
-
-
-
-    // EFFECTS: print out the current seats layout of cabin
-    public void printSeats(Flight f) {
-        for (int i = 0; i <= (f.ROW - 1); i++) {
-            for (int j = 0; j <= (f.COL - 1); j++) {
-                System.out.print(f.getSeat(i, j));
-            }
-            System.out.println();
-        }
-    }
-
-    // EFFECTS: print out all the passenger info after booking
-    public void printPassengerInfo(Passenger p) {
-        System.out.println("Passenger Name: " + p.getName());
-        System.out.println("Passenger ID: " + p.getID());
-        System.out.println("Flight No: " + p.getFlightNum()
-                + ", " + "Destination: " + p.getDestination()
-                + ", " + "Departure: " + p.getTime());
-        System.out.println("Seat No: " + "Row: " + p.getRow() + ", " + "Column: " + p.getCol());
-    }
-
-    // EFFECTS: print out the brief flight info including flight No. & departure & destination
-    public void printFlightInfo(Flight f) {
-        System.out.println("Flight No: " + f.getFlightNum()
-                + ", " + "Departure: " + f.getTime()
-                + ", " + "Destination: " + f.getDestination());
-    }
 
 
 }

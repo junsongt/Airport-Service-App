@@ -15,6 +15,7 @@ public class SearchPanel extends ContentPanel {
     private JButton clearResult;
     private JButton select;
 
+    // EFFECTS: construct a panel with controller for user to purely search the flight & details related
     public SearchPanel(ServiceAppGUI gui) {
         super(gui);
 
@@ -25,6 +26,7 @@ public class SearchPanel extends ContentPanel {
     }
 
 
+    // EFFECTS: define a new ActionListener related to the flight selection for details inside
     public class SelectFlightListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -43,6 +45,9 @@ public class SearchPanel extends ContentPanel {
         }
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: load option area with select button & clear search result button
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

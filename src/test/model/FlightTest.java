@@ -52,7 +52,7 @@ public class FlightTest {
 
     @Test
     public void testSetSeat() {
-        testPassenger.chooseSeat(2,1);
+        testPassenger.setSeat(2,1);
         testFlight.setSeat(2,1);
         assertEquals("X", testFlight.getSeat(2,1));
         assertEquals("O", testFlight.getSeat(1,1));
@@ -61,7 +61,7 @@ public class FlightTest {
 
     @Test
     public void testReleaseSeat() {
-        testPassenger.chooseSeat(2,1);
+        testPassenger.setSeat(2,1);
         testFlight.setSeat(2,1);
         assertEquals("X", testFlight.getSeat(2,1));
         testFlight.releaseSeat(2,1);

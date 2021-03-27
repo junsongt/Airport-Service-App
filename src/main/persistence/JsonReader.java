@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 // TODO citation: code taken and modified from JsonReader.java class in JsonSerializationDemo
@@ -112,8 +111,8 @@ public class JsonReader {
         int seatC = jsonObject.getInt("Col");
         passenger.setName(name);
         passenger.setID(id);
-        passenger.chooseSeat(seatR, seatC);
-        passenger.chooseFlight(flightNum);
+        passenger.setSeat(seatR, seatC);
+        passenger.setFlight(flightNum);
         flight.addPassenger(passenger);
     }
 

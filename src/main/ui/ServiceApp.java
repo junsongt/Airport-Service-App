@@ -243,7 +243,7 @@ public class ServiceApp {
     public void chooseFlight(Passenger p) {
         System.out.println("Please choose a flight by entering flight number:");
         String flightNum = input.next();
-        p.chooseFlight(flightNum);
+        p.setFlight(flightNum);
     }
 
 
@@ -284,7 +284,7 @@ public class ServiceApp {
             row = input.nextInt();
             col = input.nextInt();
         }
-        p.chooseSeat(row, col);
+        p.setSeat(row, col);
     }
 
     // MODIFIES: this, p

@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 public class FlightInfoPanel extends ContentPanel {
 
-    DefaultListModel<ArrayList<String>> passengerInfoListModel;
+    private DefaultListModel<ArrayList<String>> passengerInfoListModel;
 
+    // EFFECTS: construct a panel with controller for user to check passengers' info inside a flight
     public FlightInfoPanel(ServiceAppGUI gui) {
         super(gui);
 
@@ -22,7 +23,8 @@ public class FlightInfoPanel extends ContentPanel {
 
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: load the passengers' info inside a selected flight
     public void loadPassengerInfo(ArrayList<ArrayList<String>> passengerInfoList) {
         for (ArrayList<String> passengerInfo : passengerInfoList) {
             passengerInfoListModel.addElement(passengerInfo);
@@ -30,6 +32,8 @@ public class FlightInfoPanel extends ContentPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: load a option area with back button
     public void loadOptionPanel() {
         back = new JButton("Back to Main");
         back.addActionListener(new ActionListener() {

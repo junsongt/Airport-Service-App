@@ -57,14 +57,14 @@ public class Passenger {
 
     // MODIFIES: this
     // EFFECTS: set the seat coordinate at given row and column number
-    public void chooseSeat(int r, int c) {
+    public void setSeat(int r, int c) {
         this.seatR = r;
         this.seatC = c;
     }
 
     // MODIFIES: this
     // EFFECTS: set the flight number at given flight number
-    public void chooseFlight(String flightNum) {
+    public void setFlight(String flightNum) {
         this.flightNum = flightNum;
     }
 

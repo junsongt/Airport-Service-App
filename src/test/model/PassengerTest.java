@@ -23,15 +23,15 @@ class PassengerTest {
     }
 
     @Test
-    public void testChooseSeat() {
-        testPassenger.chooseSeat(2,1);
+    public void testSetSeat() {
+        testPassenger.setSeat(2,1);
         assertEquals(2, testPassenger.getRow());
         assertEquals(1, testPassenger.getCol());
     }
 
     @Test
-    public void testChooseFlight() {
-        testPassenger.chooseFlight("CA210");
+    public void testSetFlight() {
+        testPassenger.setFlight("CA210");
         assertEquals("CA210", testPassenger.getFlightNum());
     }
 
@@ -64,8 +64,8 @@ class PassengerTest {
     public void testToJson() {
         testPassenger.setName("Jason");
         testPassenger.setID("z6k8l");
-        testPassenger.chooseFlight("CA110");
-        testPassenger.chooseSeat(0,0);
+        testPassenger.setFlight("CA110");
+        testPassenger.setSeat(0,0);
         JSONObject json = new JSONObject();
         json.put("Name", "Jason");
         json.put("ID", "z6k8l");
@@ -82,8 +82,8 @@ class PassengerTest {
     public void testGeneratePassengerInfo() {
         testPassenger.setName("Jason");
         testPassenger.setID("z6k8l");
-        testPassenger.chooseFlight("CA110");
-        testPassenger.chooseSeat(0,0);
+        testPassenger.setFlight("CA110");
+        testPassenger.setSeat(0,0);
         assertEquals(7, testPassenger.generatePassengerInfo().size());
         assertTrue(testPassenger.generatePassengerInfo().contains("Passenger Name: Jason"));
         assertTrue(testPassenger.generatePassengerInfo().contains("Passenger ID: z6k8l"));

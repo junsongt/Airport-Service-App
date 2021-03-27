@@ -1,6 +1,5 @@
 package ui.panels;
 
-import model.Flight;
 import model.Passenger;
 import ui.ServiceAppGUI;
 
@@ -38,9 +37,13 @@ public class ContentPanel extends JPanel {
     protected JPanel optionPanel;
     protected JButton proceed;
     protected JButton back;
+
+    // For confirmation
     protected JLabel finalMessage;
+    protected ImageIcon okIcon;
 
 
+    // EFFECTS: constructing a generic content panel with controller
     public ContentPanel(ServiceAppGUI gui) {
         this.gui = gui;
         this.customer = gui.getCustomer();
@@ -48,6 +51,8 @@ public class ContentPanel extends JPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: reload a given JPanel from current JPanel
     public void switchPanels(JPanel panel) {
         this.removeAll();
         this.add(panel);
@@ -56,6 +61,9 @@ public class ContentPanel extends JPanel {
     }
 
 
+
+    // MODIFIES: this
+    // EFFECTS: load a JList panel in a content panel by a given list model
     public void loadListPanel(DefaultListModel listModel) {
         listArea = new JList<>(listModel);
         listArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -63,6 +71,17 @@ public class ContentPanel extends JPanel {
         listArea.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+//                if (e.getValueIsAdjusting() == false) {
+//
+//                    if (listArea.getSelectedIndex() == -1) {
+//                        //No selection, disable fire button.
+//                        proceed.setEnabled(false);
+//
+//                    } else {
+//                        //Selection, enable the fire button.
+//                        proceed.setEnabled(true);
+//                    }
+//                }
             }
         });
         listArea.setVisibleRowCount(3);
@@ -74,6 +93,8 @@ public class ContentPanel extends JPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: load a flight searching area in a content panel
     public void loadSearchArea() {
         searchArea = new JPanel();
         searchArea.setLayout(new GridLayout(3, 10, 30,10));
@@ -100,6 +121,8 @@ public class ContentPanel extends JPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: define a new ActionListener related to flight-search when clicking search button
     public class SearchFlightListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -113,6 +136,16 @@ public class ContentPanel extends JPanel {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: load images from file and resize
+    public void loadImage() {
+        String sep = System.getProperty("file.separator");
+        ImageIcon rawIcon = new ImageIcon(System.getProperty("user.dir") + sep
+                + "image" + sep + "ok.png");
+        Image rawImage = rawIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        okIcon = new ImageIcon(rawImage);
+
+    }
 
 
 
