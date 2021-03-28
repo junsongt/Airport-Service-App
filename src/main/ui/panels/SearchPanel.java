@@ -14,22 +14,24 @@ import java.util.ArrayList;
 
 public class SearchPanel extends ContentPanel {
 
-    private JButton clearResult;
     private JButton select;
+    private JButton clearResult;
 
     // EFFECTS: construct a panel with controller for user to purely search the flight & details related
     public SearchPanel(ServiceAppGUI gui) {
         super(gui);
 
         loadSearchArea();
-        listArea.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                select.setEnabled(true);
-            }
-        });
+//        listArea.addListSelectionListener(new ListSelectionListener() {
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                select.setEnabled(true);
+//            }
+//        });
 
         loadOptionPanel();
+
+        listSelectionToEnableButton(select);
 
     }
 

@@ -182,13 +182,16 @@ public class ServiceAppGUI extends JFrame {
     }
 
 
-    // MODIFIES: p
-    // EFFECTS: choose seat by setting row & col No
-    public void chooseSeat(Passenger p, int row, int col) {
-        Flight f = airlines.getFlight(p.getFlightNum());
+    // MODIFIES: this
+    // EFFECTS: choose seat by setting row & col if seat available and return true, else false
+    public boolean chooseSeat(int row, int col) {
+        Flight f = airlines.getFlight(customer.getFlightNum());
 
         if (!f.isSeatOccupied(row, col)) {
-            p.setSeat(row, col);
+            customer.setSeat(row, col);
+            return true;
+        } else {
+            return false;
         }
     }
 

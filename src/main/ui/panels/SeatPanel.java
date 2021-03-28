@@ -43,10 +43,19 @@ public class SeatPanel extends ContentPanel {
         public void actionPerformed(ActionEvent e) {
             int row = seats.getSelectedRow();
             int col = seats.getSelectedColumn();
-            Passenger p = gui.getCustomer();
-            gui.chooseSeat(p, row, col);
-            proceed.setEnabled(true);
 
+//            if (gui.chooseSeat(row, col)) {
+//                proceed.setEnabled(true);
+//            } else {
+//                proceed.setEnabled(false);
+//            }
+
+            if (flight.isSeatOccupied(row, col)) {
+                proceed.setEnabled(false);
+            } else {
+                passenger.setSeat(row, col);
+                proceed.setEnabled(true);
+            }
         }
     }
 

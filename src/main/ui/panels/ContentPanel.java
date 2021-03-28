@@ -133,8 +133,16 @@ public class ContentPanel extends JPanel {
     }
 
 
-
-
+    // MODIFIES: this, button
+    // EFFECTS: enable the button if selecting an item in the list
+    public void listSelectionToEnableButton(JButton button) {
+        listArea.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                button.setEnabled(true);
+            }
+        });
+    }
 
 
 }

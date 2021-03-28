@@ -19,14 +19,16 @@ public class BookingPanel extends ContentPanel {
         super(gui);
 
         loadSearchArea();
-        listArea.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                select.setEnabled(true);
-            }
-        });
+//        listArea.addListSelectionListener(new ListSelectionListener() {
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                select.setEnabled(true);
+//            }
+//        });
 
         loadOptionPanel();
+
+        listSelectionToEnableButton(select);
 
     }
 

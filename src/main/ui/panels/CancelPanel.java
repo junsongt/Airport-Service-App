@@ -23,14 +23,16 @@ public class CancelPanel extends ContentPanel {
         super(gui);
 
         loadFindBookingArea();
-        listArea.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                cancel.setEnabled(true);
-            }
-        });
+//        listArea.addListSelectionListener(new ListSelectionListener() {
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                cancel.setEnabled(true);
+//            }
+//        });
 
         loadOptionPanel();
+
+        listSelectionToEnableButton(cancel);
 
     }
 
