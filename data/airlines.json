@@ -57,7 +57,15 @@
     },
     {
         "Destination": "shanghai",
-        "Passengers": [],
+        "Passengers": [{
+            "Destination": "shanghai",
+            "Col": 1,
+            "Flight No.": "CA310",
+            "Time": 1600,
+            "ID": "12345",
+            "Row": 4,
+            "Name": "jason"
+        }],
         "Departure": 1600,
         "Flight No.": "CA310",
         "Seats": [
@@ -79,7 +87,7 @@
             ],
             [
                 "O",
-                "O"
+                "X"
             ]
         ]
     },

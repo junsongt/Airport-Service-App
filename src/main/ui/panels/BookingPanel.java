@@ -3,6 +3,8 @@ package ui.panels;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,12 @@ public class BookingPanel extends ContentPanel {
         super(gui);
 
         loadSearchArea();
+        listArea.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                select.setEnabled(true);
+            }
+        });
 
         loadOptionPanel();
 
@@ -51,6 +59,7 @@ public class BookingPanel extends ContentPanel {
 
         select = new JButton("Select flight");
         select.addActionListener(new SelectFlightListener());
+        select.setEnabled(false);
         optionPanel.add(select, BorderLayout.WEST);
 
         clearResult = new JButton("Clear results");

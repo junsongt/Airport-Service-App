@@ -5,6 +5,8 @@ import model.Passenger;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,12 @@ public class SearchPanel extends ContentPanel {
         super(gui);
 
         loadSearchArea();
+        listArea.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                select.setEnabled(true);
+            }
+        });
 
         loadOptionPanel();
 
@@ -54,6 +62,7 @@ public class SearchPanel extends ContentPanel {
 
         select = new JButton("Select flight for detail");
         select.addActionListener(new SelectFlightListener());
+        select.setEnabled(false);
         optionPanel.add(select, BorderLayout.WEST);
 
         clearResult = new JButton("Clear search results");

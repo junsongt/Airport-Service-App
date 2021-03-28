@@ -64,7 +64,7 @@ public class ConfirmBookingPanel extends ContentPanel {
         for (String s : textList) {
             text += s + "<br/>";
         }
-        text += "Please confirm the booking." + "<br/>";
+        text += "Please confirm the booking" + "<br/>";
         text += "</html>";
         return (text);
 

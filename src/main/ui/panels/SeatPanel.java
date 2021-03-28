@@ -5,7 +5,6 @@ import model.Passenger;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +15,19 @@ public class SeatPanel extends ContentPanel {
     private JTable seats;
     private JButton select;
 
+    private Passenger passenger;
+    private Flight flight;
+    private int maxRow;
+    private int maxCol;
+
 
     // EFFECTS: construct a panel with controller for user to choose a seat
     public SeatPanel(ServiceAppGUI gui) {
         super(gui);
+        passenger = gui.getCustomer();
+        flight = gui.getAirlines().getFlight(passenger.getFlightNum());
+        maxRow = flight.ROW;
+        maxCol = flight.COL;
 
         loadSeatInfoArea();
 
@@ -37,6 +45,8 @@ public class SeatPanel extends ContentPanel {
             int col = seats.getSelectedColumn();
             Passenger p = gui.getCustomer();
             gui.chooseSeat(p, row, col);
+            proceed.setEnabled(true);
+
         }
     }
 
@@ -47,9 +57,10 @@ public class SeatPanel extends ContentPanel {
         seatInfoArea = new JPanel();
         seatInfoArea.setLayout(new BorderLayout());
 
-        Object[][] seatsModel = buildSeatsModel();
+        String[][] seatsModel = buildSeatsModel();
 
-        String[] header = {"", ""};
+        String[] header = loadHeader();
+
         seats = new JTable(seatsModel, header) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -57,6 +68,7 @@ public class SeatPanel extends ContentPanel {
             }
         };
         seats.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        seats.setCellSelectionEnabled(true);
 
         JScrollPane tableScrollPane = new JScrollPane(seats);
         tableScrollPane.setViewportView(seats);
@@ -78,6 +90,7 @@ public class SeatPanel extends ContentPanel {
         optionPanel.setLayout(new BorderLayout());
 
         proceed = new JButton("Proceed to confirm");
+        proceed.setEnabled(false);
         proceed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,21 +112,37 @@ public class SeatPanel extends ContentPanel {
     }
 
 
-
     // EFFECTS: build up the table model for the seats layout JTable
-    public Object[][] buildSeatsModel() {
-        Passenger p = gui.getCustomer();
-        Flight f = gui.getAirlines().getFlight(p.getFlightNum());
-        int maxRow = f.ROW;
-        int maxCol = f.COL;
-
-        Object[][] seatsModel = new Object[maxRow][maxCol];
+    public String[][] buildSeatsModel() {
+        String[][] seatsModel = new String[maxRow][maxCol];
         for (int i = 0; i < maxRow; i++) {
             for (int j = 0; j < maxCol; j++) {
-                seatsModel[i][j] = f.getSeats().get(i).get(j);
+                seatsModel[i][j] = flight.getSeats().get(i).get(j);
             }
         }
         return seatsModel;
     }
+
+
+    // EFFECTS: generate fixed length array for the header of table
+    public String[] loadHeader() {
+        String[] header = new String[maxCol];
+        for (int i = 0; i < maxCol; i++) {
+            header[i] = "";
+        }
+        return header;
+//        ArrayList<String> header = new ArrayList<>();
+//        for (int i = 0; i < maxCol; i++) {
+//            header.add("");
+//        }
+//        return header.toArray(new String[0]);
+//        return header.toArray(new String[header.size()]);
+
+    }
+
+
+
+
+
 
 }

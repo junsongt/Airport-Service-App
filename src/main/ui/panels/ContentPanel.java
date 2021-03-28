@@ -16,7 +16,7 @@ public class ContentPanel extends JPanel {
     protected ServiceAppGUI gui;
     protected Passenger customer;
 
-    // For search
+    // For search flight
     protected JPanel searchArea;
     protected JLabel time;
     protected JLabel destination;
@@ -68,22 +68,7 @@ public class ContentPanel extends JPanel {
         listArea = new JList<>(listModel);
         listArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listArea.setSelectedIndex(0);
-        listArea.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-//                if (e.getValueIsAdjusting() == false) {
-//
-//                    if (listArea.getSelectedIndex() == -1) {
-//                        //No selection, disable fire button.
-//                        proceed.setEnabled(false);
-//
-//                    } else {
-//                        //Selection, enable the fire button.
-//                        proceed.setEnabled(true);
-//                    }
-//                }
-            }
-        });
+
         listArea.setVisibleRowCount(3);
         JScrollPane listScrollPane = new JScrollPane(listArea);
         listScrollPane.setViewportView(listArea);

@@ -3,6 +3,8 @@ package ui.panels;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +23,12 @@ public class CancelPanel extends ContentPanel {
         super(gui);
 
         loadFindBookingArea();
+        listArea.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                cancel.setEnabled(true);
+            }
+        });
 
         loadOptionPanel();
 
@@ -93,6 +101,7 @@ public class CancelPanel extends ContentPanel {
 
         cancel = new JButton("Cancel booking");
         cancel.addActionListener(new CancelBookingListener());
+        cancel.setEnabled(false);
         optionPanel.add(cancel, BorderLayout.WEST);
 
         clearResult = new JButton("Clear results");
