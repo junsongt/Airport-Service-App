@@ -20,8 +20,8 @@ public class HomePanel extends ContentPanel {
 
         loadImage();
 
-        finalMessage = new JLabel("", SwingConstants.CENTER);
-        add(finalMessage, BorderLayout.CENTER);
+        message = new JLabel("", SwingConstants.CENTER);
+        add(message, BorderLayout.CENTER);
 
         loadOptionPanel();
     }
@@ -29,6 +29,7 @@ public class HomePanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load the option area with save & load buttons
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
@@ -38,8 +39,8 @@ public class HomePanel extends ContentPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.saveBooking();
-                finalMessage.setText("Booking saved!");
-                finalMessage.setIcon(okIcon);
+                message.setText("Booking saved!");
+                message.setIcon(okIcon);
             }
         });
         optionPanel.add(save, BorderLayout.NORTH);
@@ -49,8 +50,8 @@ public class HomePanel extends ContentPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.loadBooking();
-                finalMessage.setText("Booking loaded!");
-                finalMessage.setIcon(okIcon);
+                message.setText("Booking loaded!");
+                message.setIcon(okIcon);
             }
         });
         optionPanel.add(load, BorderLayout.SOUTH);

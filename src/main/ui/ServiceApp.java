@@ -1,6 +1,10 @@
 package ui;
 
 
+import exception.EmptySearchResultException;
+import exception.InvalidInputException;
+import exception.InvalidSeatException;
+import exception.SameIDException;
 import model.Airlines;
 import model.Flight;
 import model.Passenger;
@@ -20,6 +24,7 @@ public class ServiceApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    private Passenger customer;
 
     // EFFECTS: constructor with building today's airlines, and show main menu
     public ServiceApp() throws FileNotFoundException {
@@ -30,8 +35,6 @@ public class ServiceApp {
         this.input = new Scanner(System.in);
         processMainMenu();
     }
-
-
 
 
     // MODIFIES: this
@@ -56,19 +59,18 @@ public class ServiceApp {
     // EFFECTS: show the main menu on app
     public void mainMenu() {
         System.out.println("Hello! Welcome to the airport!");
-        System.out.println("Start service => Press 's'.");
-        System.out.println("Load the current booking info => Press 'l'.");
-        System.out.println("Save the current booking info => Press 'v'.");
+        System.out.println("Start service => Press 's'");
+        System.out.println("Load the current booking info => Press 'l'");
+        System.out.println("Save the current booking info => Press 'v'");
     }
 
     // EFFECTS: show the sub-menu within the startService functionality on app
     public void subMenu() {
-        System.out.println("Start new booking => Press 'n'.");
-        System.out.println("Search a flight => Press 's'.");
-        System.out.println("Cancel your previous booking => Press 'c'.");
-        System.out.println("Back to main menu => Press 'b'.");
+        System.out.println("Start new booking => Press 'n'");
+        System.out.println("Search a flight => Press 's'");
+        System.out.println("Cancel your previous booking => Press 'c'");
+        System.out.println("Back to main menu => Press 'b'");
     }
-
 
 
     // EFFECTS: process the different inputs to corresponding functionalities on main-menu
@@ -87,59 +89,73 @@ public class ServiceApp {
             } else if (command.equals("reset")) {
                 reset = true;
             } else {
-                System.out.println("Please enter 's' to start service.");
+                System.out.println("Please enter 's' to start service");
             }
         }
     }
 
     // EFFECTS: process the different inputs to corresponding functionalities on sub-menu
-    // TODO: could throw exception: invalid inputs (implement later phase)
     public void processSubMenu() {
         boolean backToMainMenu = false;
         while (!backToMainMenu) {
             subMenu();
             String command = input.next();
             if (command.equals("n")) {
+//                try {
                 newBooking();
+//                } catch (SameIDException e) {
+//                    System.out.println(e.getMessage());
+//                } catch (InvalidInputException e) {
+//                    System.out.println(e.getMessage());
+//                }
             } else if (command.equals("s")) {
-                justSearchFlight();
+                justSearch();
             } else if (command.equals("c")) {
                 cancelBooking();
             } else if (command.equals("b")) {
                 backToMainMenu = true;
             } else {
-                System.out.println("Please press the corresponding button.");
+                System.out.println("Please press the corresponding button");
             }
         }
     }
 
 
     // EFFECTS: return to the main menu
-    // TODO: could throw exception: invalid input (implement later phase)
     public void backToMainMenuHint() {
-        System.out.println("Back to main menu => Press 'b'.");
+        System.out.println("Back to main menu => Press 'b'");
         String command = input.next();
         while (!command.equals("b")) {
-            System.out.println("Please press 'b' to get back to the main menu.");
+            System.out.println("Please press 'b' to get back to the main menu");
             command = input.next();
         }
     }
 
     // EFFECTS: return to the sub menu
-    // TODO: could throw exception: invalid input (implement later phase)
     public void backToSubMenuHint() {
-        System.out.println("Back to sub menu => Press 'b'.");
+        System.out.println("Back to sub menu => Press 'b'");
         String command = input.next();
         while (!command.equals("b")) {
-            System.out.println("Please press 'b' to get back to the sub menu.");
+            System.out.println("Please press 'b' to get back to the sub menu");
             command = input.next();
         }
     }
 
 
-
 //============================================================================================
 // Main menu functionalities
+
+
+    // EFFECTS: just search the flight
+    public void justSearch() {
+        try {
+            search();
+            backToSubMenuHint();
+        } catch (EmptySearchResultException e) {
+            System.out.println(e.getMessage());
+            backToSubMenuHint();
+        }
+    }
 
     // MODIFIES: this
     // EFFECTS: start the actual service by going into a sub-menu
@@ -177,134 +193,151 @@ public class ServiceApp {
     }
 
 
-
 //=============================================================================================
 // Sub-menu functionalities
-
-    // EFFECTS: just search the flight by given time and destination
-    public void justSearchFlight() {
-        System.out.println("Please input your departing time: (format: 900 for 9:00 am; 1600 for 4:00 pm)");
-        int time = input.nextInt();
-        System.out.println("Please input your destination:");
-        String destination = input.next();
-        searchFlight(time, destination);
-        backToSubMenuHint();
-    }
 
 
     // MODIFIES: this
     // EFFECTS: start a new booking by creating passenger info
     public void newBooking() {
-        Passenger me = createPassenger();
-        while (!searchFlight(me.getTime(), me.getDestination())) {
-            System.out.println("Please re-enter your departing time and destination");
-            me = createPassenger();
+        try {
+            search();
+            chooseFlight();
+            makeBook();
+            chooseSeat();
+            confirmBook();
+            backToSubMenuHint();
+        } catch (EmptySearchResultException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidInputException e) {
+            System.out.println(e.getMessage());
+        } catch (SameIDException e) {
+            System.out.println(e.getMessage());
         }
-        chooseFlight(me);
-        String flightNum = me.getFlightNum();
-        makeBook(me);
-        chooseSeat(me);
-        confirmBook(me, flightNum);
-        backToSubMenuHint();
     }
 
+    // MODIFIES: this
     // EFFECTS: construct a new passenger with the given time and destination user inputs
-    // TODO: could throw exception: invalid input (implement later phase)
-    public Passenger createPassenger() {
+    public void customerInit(int time, String destination) {
+        customer = new Passenger(time, destination);
+    }
+
+    // EFFECTS: do the search job by user inputs
+    public void search() throws EmptySearchResultException {
         System.out.println("Please input your departing time: (format: 900 for 9:00 am; 1600 for 4:00 pm)");
         int time = input.nextInt();
+        while (!(100 <= time && time <= 2459)) {
+            System.out.println("Invalid time input! Please re-enter your time");
+            time = input.nextInt();
+        }
         System.out.println("Please input your destination:");
         String destination = input.next();
-        return new Passenger(time, destination);
+        customerInit(time, destination);
+        ArrayList<Flight> results = searchFlight(time, destination);
+        if (results.isEmpty()) {
+            throw new EmptySearchResultException();
+        } else {
+            for (Flight f : results) {
+                printFlightInfo(f);
+            }
+        }
+
     }
 
-
     // EFFECTS: auto-search flight with given time & destination. If found, show all found, else false
-    public boolean searchFlight(int time, String destination) {
+    public ArrayList<Flight> searchFlight(int time, String destination) {
         ArrayList<Flight> results = new ArrayList<>();
         for (Flight f : airlines.getFlightList()) {
             if ((time <= f.getTime()) && (destination.equals(f.getDestination()))) {
                 results.add(f);
-                printFlightInfo(f);
             }
         }
-        if (results.isEmpty()) {
-            System.out.println("Sorry! No flight found.");
-            return false;
-        } else {
-            return true;
-        }
+        return results;
     }
 
 
-    // MODIFIES: p
+    // MODIFIES: this
     // EFFECTS: choose flight by flight No
-    // TODO: could throw exception: invalid input (implement later phase)
-    public void chooseFlight(Passenger p) {
+    public void chooseFlight() throws InvalidInputException {
         System.out.println("Please choose a flight by entering flight number:");
         String flightNum = input.next();
-        p.setFlight(flightNum);
+        ArrayList<Flight> results = searchFlight(customer.getTime(), customer.getDestination());
+        boolean check = false;
+        for (Flight f : results) {
+            if (f.getFlightNum().equals(flightNum)) {
+                customer.setFlight(flightNum);
+                check = check || true;
+            }
+        }
+        if (!check) {
+            throw new InvalidInputException();
+
+        }
+
     }
 
 
-    // MODIFIES: p
+    // MODIFIES: this
     // EFFECTS: make booking by inputting name & ID
-    // TODO: could throw exception: if the passenger's id has already made a book on this flight,
-    //       even runService() will throw it to kill the method, but serviceApp() will catch it
-    //       (implement later phase)
-    public void makeBook(Passenger p) {
+    public void makeBook() throws SameIDException {
         System.out.println("Please enter your name:");
         String name = input.next();
         System.out.println("Please enter your ID:");
         String id = input.next();
-        Flight f = airlines.getFlight(p.getFlightNum());
-//        for (Passenger i : f.getPassengerList()) {
-//            if (i.getId().equals(id)) {
-//                System.out.println("This ID has already made a book on this flight.");
-//                return false;
-//            }
-//        }
-        p.setName(name);
-        p.setID(id);
-        p.setTime(f.getTime());
-//        return true;
+        Flight f = airlines.findFlight(customer.getFlightNum());
+        for (Passenger i : f.getPassengerList()) {
+            if (i.getID().equals(id)) {
+                throw new SameIDException();
+            }
+        }
+        customer.setName(name);
+        customer.setID(id);
+        customer.setTime(f.getTime());
     }
 
 
-    // MODIFIES: p
+    // MODIFIES: this
     // EFFECTS: choose seat by choose row & col No
-    public void chooseSeat(Passenger p) {
+    public void chooseSeat() {
         System.out.println("Please choose your seat by entering row number and column number:");
-        Flight f = airlines.getFlight(p.getFlightNum());
+        Flight f = airlines.findFlight(customer.getFlightNum());
         printSeats(f);
         int row = input.nextInt();
         int col = input.nextInt();
-        while (f.isSeatOccupied(row, col)) {
-            System.out.println("This seat is booked. Please choose another seat:");
-            row = input.nextInt();
-            col = input.nextInt();
+        try {
+            while (f.isSeatOccupied(row, col)) {
+                System.out.println("This seat is booked. Please choose another seat:");
+                row = input.nextInt();
+                col = input.nextInt();
+            }
+            customer.setSeat(row, col);
+        } catch (InvalidSeatException e) {
+            System.out.println(e.getMessage());
+            chooseSeat();
         }
-        p.setSeat(row, col);
+
+
     }
 
-    // MODIFIES: this, p
+    // MODIFIES: this
     // EFFECTS: confirm the current booking
-    // TODO: could throw exception: invalid input (implement later phase)
-    public void confirmBook(Passenger p, String flightNum) {
-        System.out.println("Confirm or Cancel?  Y/N");
+    public void confirmBook() {
+        System.out.println("Confirm booking?  Y/N");
         String decision = input.next();
+        while ((!decision.equals("y")) && (!decision.equals("n"))) {
+            System.out.println("Confirm booking?  Y/N");
+            decision = input.next();
+        }
+        String flightNum = customer.getFlightNum();
         if (decision.equals("y")) {
             System.out.println("You have successfully booked a flight!");
-            airlines.getFlight(flightNum).addPassenger(p);
-            airlines.getFlight(flightNum).setSeat(p.getRow(), p.getCol());
-            printPassengerInfo(p);
+            airlines.findFlight(flightNum).addPassenger(customer);
+            airlines.findFlight(flightNum).setSeat(customer.getRow(), customer.getCol());
+            printPassengerInfo(customer);
         } else {
-            System.out.println("You have canceled your booking.");
+            System.out.println("You have canceled your booking");
         }
     }
-
-
-
 
 
     // MODIFIES: this
@@ -321,8 +354,8 @@ public class ServiceApp {
             if (decision.equals("y")) {
                 for (Passenger p : results) {
                     if (p.getFlightNum().equals(flightNum)) {
-                        airlines.getFlight(flightNum).getPassengerList().remove(p);
-                        airlines.getFlight(flightNum).releaseSeat(p.getRow(), p.getCol());
+                        airlines.findFlight(flightNum).getPassengerList().remove(p);
+                        airlines.findFlight(flightNum).releaseSeat(p.getRow(), p.getCol());
                     }
                 }
                 System.out.println("You have successfully canceled your flight!");
@@ -348,10 +381,6 @@ public class ServiceApp {
         }
         return results;
     }
-
-
-
-
 
 
     // EFFECTS: print out the current seats layout of cabin

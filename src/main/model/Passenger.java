@@ -2,7 +2,6 @@ package model;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -22,7 +21,6 @@ public class Passenger {
     public Passenger(int time, String destination) {
         this.time = time;
         this.destination = destination;
-
     }
 
     // getters
@@ -60,6 +58,8 @@ public class Passenger {
     public void setSeat(int r, int c) {
         this.seatR = r;
         this.seatC = c;
+
+
     }
 
     // MODIFIES: this
@@ -89,8 +89,6 @@ public class Passenger {
     }
 
 
-
-
     // EFFECTS: produce a list containing passenger's information
     public ArrayList<String> generatePassengerInfo() {
         ArrayList<String> passengerInfo = new ArrayList<>();
@@ -110,8 +108,6 @@ public class Passenger {
         passengerInfo.add(col);
         return passengerInfo;
     }
-
-
 
 
     // TODO citation: code taken and modified from model package in JsonSerializationDemo

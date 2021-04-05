@@ -25,7 +25,7 @@ public class SeatPanel extends ContentPanel {
     public SeatPanel(ServiceAppGUI gui) {
         super(gui);
         passenger = gui.getCustomer();
-        flight = gui.getAirlines().getFlight(passenger.getFlightNum());
+        flight = gui.getAirlines().findFlight(passenger.getFlightNum());
         maxRow = flight.ROW;
         maxCol = flight.COL;
 
@@ -44,18 +44,21 @@ public class SeatPanel extends ContentPanel {
             int row = seats.getSelectedRow();
             int col = seats.getSelectedColumn();
 
-//            if (gui.chooseSeat(row, col)) {
-//                proceed.setEnabled(true);
-//            } else {
-//                proceed.setEnabled(false);
-//            }
-
-            if (flight.isSeatOccupied(row, col)) {
-                proceed.setEnabled(false);
-            } else {
-                passenger.setSeat(row, col);
+            if (gui.chooseSeat(row, col)) {
                 proceed.setEnabled(true);
+                warning.setText("");
+            } else {
+                proceed.setEnabled(false);
+                warning.setText("Seat already chosen, pick another one!");
+
             }
+
+//            if (flight.isSeatOccupied(row, col)) {
+//                proceed.setEnabled(false);
+//            } else {
+//                passenger.setSeat(row, col);
+//                proceed.setEnabled(true);
+//            }
         }
     }
 
@@ -66,10 +69,11 @@ public class SeatPanel extends ContentPanel {
         seatInfoArea = new JPanel();
         seatInfoArea.setLayout(new BorderLayout());
 
+        warning = new JLabel("", SwingConstants.CENTER);
+        seatInfoArea.add(warning, BorderLayout.PAGE_START);
+
         String[][] seatsModel = buildSeatsModel();
-
         String[] header = loadHeader();
-
         seats = new JTable(seatsModel, header) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -81,8 +85,8 @@ public class SeatPanel extends ContentPanel {
 
         JScrollPane tableScrollPane = new JScrollPane(seats);
         tableScrollPane.setViewportView(seats);
-
         seatInfoArea.add(tableScrollPane, BorderLayout.CENTER);
+
         select = new JButton("Select seat");
         select.addActionListener(new SelectSeatListener());
         seatInfoArea.add(select, BorderLayout.PAGE_END);
@@ -94,6 +98,7 @@ public class SeatPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load the option area with proceed button & back button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

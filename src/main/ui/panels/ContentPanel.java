@@ -1,5 +1,6 @@
 package ui.panels;
 
+import exception.InvalidInputException;
 import model.Passenger;
 import ui.ServiceAppGUI;
 
@@ -15,6 +16,8 @@ public class ContentPanel extends JPanel {
     // Controller
     protected ServiceAppGUI gui;
     protected Passenger customer;
+
+    protected JLabel warning;
 
     // For search flight
     protected JPanel searchArea;
@@ -39,7 +42,7 @@ public class ContentPanel extends JPanel {
     protected JButton back;
 
     // For confirmation
-    protected JLabel finalMessage;
+    protected JLabel message;
     protected ImageIcon okIcon;
 
 
@@ -84,11 +87,11 @@ public class ContentPanel extends JPanel {
         searchArea = new JPanel();
         searchArea.setLayout(new GridLayout(3, 10, 30,10));
 
-        time = new JLabel("time");
+        time = new JLabel("Time");
         searchArea.add(time);
         timeInput = new JTextField();
         searchArea.add(timeInput);
-        destination = new JLabel("destination");
+        destination = new JLabel("Destination");
         searchArea.add(destination);
         destinationInput = new JTextField();
         searchArea.add(destinationInput);
@@ -98,6 +101,10 @@ public class ContentPanel extends JPanel {
         search = new JButton("Search Flight");
         search.addActionListener(new SearchFlightListener());
         searchArea.add(search);
+
+        warning = new JLabel("", SwingConstants.CENTER);
+//        warning.setForeground(Color.RED);
+        searchArea.add(warning);
 
         add(searchArea, BorderLayout.NORTH);
 
@@ -113,10 +120,23 @@ public class ContentPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int time = Integer.parseInt(timeInput.getText());
             String destination = destinationInput.getText();
-            ArrayList<String> results = gui.searchFlight(time, destination);
-            for (String flightInfo : results) {
-                flightList.addElement(flightInfo);
+            flightList.removeAllElements();
+            ArrayList<String> results = null;
+            try {
+                results = gui.searchFlight(time, destination);
+                for (String flightInfo : results) {
+                    flightList.addElement(flightInfo);
+                }
+                if (results.isEmpty()) {
+                    warning.setText("No flight found!");
+                } else {
+                    warning.setText("");
+                }
+            } catch (InvalidInputException invalidInputException) {
+                warning.setText(invalidInputException.getMessage());
+//                System.out.println(invalidInputException.getMessage());
             }
+
         }
     }
 
@@ -142,6 +162,14 @@ public class ContentPanel extends JPanel {
                 button.setEnabled(true);
             }
         });
+    }
+
+
+    public void loadOptionPanel() {
+        optionPanel = new JPanel();
+        optionPanel.setLayout(new BorderLayout());
+
+        add(optionPanel, BorderLayout.PAGE_END);
     }
 
 

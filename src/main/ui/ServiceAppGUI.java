@@ -1,5 +1,8 @@
 package ui;
 
+import exception.InvalidInputException;
+import exception.InvalidSeatException;
+import exception.SameIDException;
 import model.Airlines;
 import model.Flight;
 import model.Passenger;
@@ -132,14 +135,19 @@ public class ServiceAppGUI extends JFrame {
 // Search functionalities
 
     // EFFECTS: auto-search flight with given time & destination. show all the results
-    public ArrayList<String> searchFlight(int time, String destination) {
+    public ArrayList<String> searchFlight(int time, String destination) throws InvalidInputException {
         ArrayList<String> results = new ArrayList<>();
-        for (Flight f : airlines.getFlightList()) {
-            if ((time <= f.getTime()) && (destination.equals(f.getDestination()))) {
-                results.add(f.generateFlightInfo());
+        if (100 <= time && time <= 2459) {
+            for (Flight f : airlines.getFlightList()) {
+                if ((time <= f.getTime()) && (destination.equals(f.getDestination()))) {
+                    results.add(f.generateFlightInfo());
+                }
             }
+            return results;
+        } else {
+            throw new InvalidInputException();
         }
-        return results;
+
     }
 
 
@@ -161,21 +169,20 @@ public class ServiceAppGUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: construct a new passenger with the given time and destination user inputs
-    // TODO: could throw exception: invalid input (implement later)
     public void createPassenger(int time, String destination) {
         customer = new Passenger(time, destination);
     }
 
-    
-
 
     // MODIFIES: this
     // EFFECTS: make booking by given passenger's name & ID, and set departing time
-    // TODO: could throw exception: if the passenger's id has already made a book on this flight,
-    //       even runService() will throw it to kill the method, but serviceApp() will catch it
-    //       (implement later)
-    public void makeBook(String name, String id) {
-        Flight f = airlines.getFlight(customer.getFlightNum());
+    public void makeBook(String name, String id) throws SameIDException {
+        Flight f = airlines.findFlight(customer.getFlightNum());
+        for (Passenger p : f.getPassengerList()) {
+            if (p.getID().equals(id)) {
+                throw new SameIDException();
+            }
+        }
         customer.setName(name);
         customer.setID(id);
         customer.setTime(f.getTime());
@@ -185,40 +192,39 @@ public class ServiceAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: choose seat by setting row & col if seat available and return true, else false
     public boolean chooseSeat(int row, int col) {
-        Flight f = airlines.getFlight(customer.getFlightNum());
-
-        if (!f.isSeatOccupied(row, col)) {
-            customer.setSeat(row, col);
-            return true;
-        } else {
+        Flight f = airlines.findFlight(customer.getFlightNum());
+        try {
+            if (!f.isSeatOccupied(row, col)) {
+                customer.setSeat(row, col);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (InvalidSeatException e) {
+            System.out.println(e.getMessage());
             return false;
         }
+
     }
 
     // MODIFIES: this
     // EFFECTS: confirm the current booking
-    // TODO: could throw exception: invalid input (implement later)
     public void confirmBook(Passenger p) {
         String flightNum = p.getFlightNum();
-        airlines.getFlight(flightNum).addPassenger(p);
-        airlines.getFlight(flightNum).setSeat(p.getRow(), p.getCol());
+        airlines.findFlight(flightNum).addPassenger(p);
+        airlines.findFlight(flightNum).setSeat(p.getRow(), p.getCol());
     }
-
-
 
 
     // MODIFIES: this
     // EFFECTS: cancel user's booking and release seat
     public void cancelBooking(String flightNum, String name, String id) {
-        Flight flight = airlines.getFlight(flightNum);
+        Flight flight = airlines.findFlight(flightNum);
         Passenger p = flight.findPassenger(name, id);
 
         flight.getPassengerList().remove(p);
         flight.releaseSeat(p.getRow(), p.getCol());
     }
-
-
-
 
 
 }

@@ -5,8 +5,6 @@ import model.Passenger;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +26,6 @@ public class SearchPanel extends ContentPanel {
 //                select.setEnabled(true);
 //            }
 //        });
-
         loadOptionPanel();
 
         listSelectionToEnableButton(select);
@@ -43,7 +40,7 @@ public class SearchPanel extends ContentPanel {
             int index = listArea.getSelectedIndex();
             String flightInfo = flightList.get(index);
             String flightNum = flightInfo.substring(11,16);
-            Flight flight = gui.getAirlines().getFlight(flightNum);
+            Flight flight = gui.getAirlines().findFlight(flightNum);
             ArrayList<ArrayList<String>> passengerInfoList = new ArrayList<>();
             for (Passenger p : flight.getPassengerList()) {
                 passengerInfoList.add(p.generatePassengerInfo());
@@ -58,6 +55,7 @@ public class SearchPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load option area with select button & clear search result button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

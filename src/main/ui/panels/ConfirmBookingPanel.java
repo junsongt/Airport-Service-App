@@ -18,8 +18,8 @@ public class ConfirmBookingPanel extends ContentPanel {
 
         loadImage();
 
-        finalMessage = new JLabel(printBookingInfoBrief(), SwingConstants.CENTER);
-        add(finalMessage, BorderLayout.CENTER);
+        message = new JLabel(printBookingInfoBrief(), SwingConstants.CENTER);
+        add(message, BorderLayout.CENTER);
 
         loadOptionPanel();
 
@@ -28,6 +28,7 @@ public class ConfirmBookingPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load the option area with confirm button & back button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());
@@ -37,8 +38,8 @@ public class ConfirmBookingPanel extends ContentPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.confirmBook(gui.getCustomer());
-                finalMessage.setText("You have successfully booked your flight!");
-                finalMessage.setIcon(okIcon);
+                message.setText("You have successfully booked your flight!");
+                message.setIcon(okIcon);
             }
         });
         optionPanel.add(confirm, BorderLayout.WEST);

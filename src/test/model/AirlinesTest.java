@@ -27,8 +27,8 @@ public class AirlinesTest {
         Flight f2 = new Flight("CA211", 2100, "Vancouver");
         testAirlines.addFlight(f1);
         testAirlines.addFlight(f2);
-        assertEquals(f2, testAirlines.getFlight("CA211"));
-        assertNull(testAirlines.getFlight("CA212"));
+        assertEquals(f2, testAirlines.findFlight("CA211"));
+        assertNull(testAirlines.findFlight("CA212"));
     }
 
 

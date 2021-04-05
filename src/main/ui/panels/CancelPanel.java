@@ -29,7 +29,6 @@ public class CancelPanel extends ContentPanel {
 //                cancel.setEnabled(true);
 //            }
 //        });
-
         loadOptionPanel();
 
         listSelectionToEnableButton(cancel);
@@ -58,6 +57,10 @@ public class CancelPanel extends ContentPanel {
         find.addActionListener(new SearchBookingListener());
         findBookingArea.add(find);
 
+        warning = new JLabel("", SwingConstants.CENTER);
+//        warning.setForeground(Color.RED);
+        findBookingArea.add(warning);
+
         add(findBookingArea, BorderLayout.NORTH);
 
         loadListPanel(bookingList);
@@ -70,9 +73,15 @@ public class CancelPanel extends ContentPanel {
         public void actionPerformed(ActionEvent e) {
             String name = nameInput.getText();
             String id = idInput.getText();
+            bookingList.removeAllElements();
             ArrayList<ArrayList<String>> results = gui.searchBooking(name, id);
             for (ArrayList<String> passengerInfo : results) {
                 bookingList.addElement(passengerInfo);
+            }
+            if (results.isEmpty()) {
+                warning.setText("No booking found!");
+            } else {
+                warning.setText("");
             }
         }
     }
@@ -97,6 +106,7 @@ public class CancelPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load option area with cancel button & clear search results button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

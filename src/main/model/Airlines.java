@@ -21,7 +21,7 @@ public class Airlines {
 
     // getters
     // EFFECTS: get the flight by given flight number
-    public Flight getFlight(String flightNum) {
+    public Flight findFlight(String flightNum) {
         for (Flight f : flightList) {
             if (f.getFlightNum().equals(flightNum)) {
                 return f;

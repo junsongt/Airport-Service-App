@@ -4,8 +4,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PassengerTest {
     private Passenger testPassenger;
@@ -19,12 +18,11 @@ class PassengerTest {
     public void testConstructor() {
         assertEquals(900, testPassenger.getTime());
         assertEquals("vancouver", testPassenger.getDestination());
-
     }
 
     @Test
     public void testSetSeat() {
-        testPassenger.setSeat(2,1);
+        testPassenger.setSeat(2, 1);
         assertEquals(2, testPassenger.getRow());
         assertEquals(1, testPassenger.getCol());
     }
@@ -65,7 +63,7 @@ class PassengerTest {
         testPassenger.setName("Jason");
         testPassenger.setID("z6k8l");
         testPassenger.setFlight("CA110");
-        testPassenger.setSeat(0,0);
+        testPassenger.setSeat(0, 0);
         JSONObject json = new JSONObject();
         json.put("Name", "Jason");
         json.put("ID", "z6k8l");
@@ -83,7 +81,7 @@ class PassengerTest {
         testPassenger.setName("Jason");
         testPassenger.setID("z6k8l");
         testPassenger.setFlight("CA110");
-        testPassenger.setSeat(0,0);
+        testPassenger.setSeat(0, 0);
         assertEquals(7, testPassenger.generatePassengerInfo().size());
         assertTrue(testPassenger.generatePassengerInfo().contains("Passenger Name: Jason"));
         assertTrue(testPassenger.generatePassengerInfo().contains("Passenger ID: z6k8l"));

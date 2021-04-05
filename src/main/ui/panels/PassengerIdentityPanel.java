@@ -1,5 +1,6 @@
 package ui.panels;
 
+import exception.SameIDException;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
@@ -29,9 +30,14 @@ public class PassengerIdentityPanel extends ContentPanel {
         public void actionPerformed(ActionEvent e) {
             String name = nameInput.getText();
             String id = idInput.getText();
-            gui.makeBook(name, id);
+            try {
+                gui.makeBook(name, id);
+                switchPanels(new SeatPanel(gui));
+            } catch (SameIDException sameIDException) {
+                warning.setText(sameIDException.getMessage());
+//                System.out.println(sameIDException.getMessage());
+            }
 
-            switchPanels(new SeatPanel(gui));
         }
     }
 
@@ -50,6 +56,9 @@ public class PassengerIdentityPanel extends ContentPanel {
         idInput = new JTextField();
         passengerInfoArea.add(idInput);
 
+        warning = new JLabel("", SwingConstants.CENTER);
+        passengerInfoArea.add(warning);
+
         add(passengerInfoArea, BorderLayout.NORTH);
 
     }
@@ -57,6 +66,7 @@ public class PassengerIdentityPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load option area with proceed & back button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

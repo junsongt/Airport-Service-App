@@ -1,5 +1,6 @@
 package model;
 
+import exception.InvalidSeatException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -70,7 +71,7 @@ public class Flight {
         }
     }
 
-    // REQUIRES: 0<=row index<=ROW, 0<=column index<=COL
+    // REQUIRES: 0<=r<=ROW-1, 0<=c<=COL-1
     // MODIFIES: this
     // EFFECTS: set the seat as chosen("X") at given row index and column index
     public void setSeat(int r, int c) {
@@ -95,9 +96,15 @@ public class Flight {
         return null;
     }
 
+    // REQUIRES: 0<=r<=ROW-1, 0<=c<=COL-1
     // EFFECTS: determine if the seat on this flight is occupied
-    public boolean isSeatOccupied(int r, int c) {
-        return seats.get(r).get(c).equals("X");
+    public boolean isSeatOccupied(int r, int c) throws InvalidSeatException {
+        if ((0 <= r && r <= ROW - 1) && (0 <= c && c <= COL - 1)) {
+            return seats.get(r).get(c).equals("X");
+        } else {
+            throw new InvalidSeatException();
+        }
+
     }
 
 

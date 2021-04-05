@@ -1,5 +1,6 @@
 package persistence;
 
+import exception.InvalidSeatException;
 import model.Airlines;
 import model.Flight;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderBookingAirlines() {
+    void testReaderBookingAirlinesSuccess() {
         JsonReader reader = new JsonReader("./data/testReaderBookings.json");
         try {
             Airlines testAirlines = reader.readAirlines();
@@ -47,6 +48,8 @@ public class JsonReaderTest extends JsonTest {
             assertTrue(testFlight.isSeatOccupied(0,0));
         } catch (IOException e) {
             fail("Couldn't read from file");
+        } catch (InvalidSeatException e) {
+            fail("No exception should be thrown");
         }
     }
 }

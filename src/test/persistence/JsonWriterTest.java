@@ -1,5 +1,6 @@
 package persistence;
 
+import exception.InvalidSeatException;
 import model.Airlines;
 import model.Flight;
 import model.Passenger;
@@ -52,7 +53,7 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    public void testWriterGeneralWorkroom() {
+    public void testWriterGeneralFlight() {
         try {
             Passenger testPassenger = new Passenger(800, "vancouver");
             testPassenger.setName("Jason");
@@ -76,6 +77,8 @@ public class JsonWriterTest extends JsonTest {
             checkPassenger("Jason", "z6k8l", newFlight.getPassengerList().get(0));
             assertTrue(newFlight.isSeatOccupied(0,0));
 
+        } catch (InvalidSeatException e) {
+            fail("Exception should not have been thrown");
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

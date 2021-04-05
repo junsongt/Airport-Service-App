@@ -1,5 +1,6 @@
 package model;
 
+import exception.InvalidSeatException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ public class FlightTest {
         assertEquals(800, testFlight.getTime());
         assertEquals("shanghai", testFlight.getDestination());
         assertTrue(testFlight.getPassengerList().isEmpty());
-        assertEquals("O", testFlight.getSeat(1,1));
+        assertEquals("O", testFlight.getSeat(1, 1));
         assertEquals(Flight.ROW, testFlight.getSeats().size());
         assertEquals(Flight.COL, testFlight.getSeats().get(0).size());
     }
@@ -52,20 +53,20 @@ public class FlightTest {
 
     @Test
     public void testSetSeat() {
-        testPassenger.setSeat(2,1);
-        testFlight.setSeat(2,1);
-        assertEquals("X", testFlight.getSeat(2,1));
-        assertEquals("O", testFlight.getSeat(1,1));
+        testPassenger.setSeat(2, 1);
+        testFlight.setSeat(2, 1);
+        assertEquals("X", testFlight.getSeat(2, 1));
+        assertEquals("O", testFlight.getSeat(1, 1));
     }
 
 
     @Test
     public void testReleaseSeat() {
-        testPassenger.setSeat(2,1);
-        testFlight.setSeat(2,1);
-        assertEquals("X", testFlight.getSeat(2,1));
-        testFlight.releaseSeat(2,1);
-        assertEquals("O", testFlight.getSeat(2,1));
+        testPassenger.setSeat(2, 1);
+        testFlight.setSeat(2, 1);
+        assertEquals("X", testFlight.getSeat(2, 1));
+        testFlight.releaseSeat(2, 1);
+        assertEquals("O", testFlight.getSeat(2, 1));
     }
 
     @Test
@@ -81,9 +82,42 @@ public class FlightTest {
 
     @Test
     public void testIsSeatOccupied() {
-        testFlight.setSeat(2,1);
-        assertTrue(testFlight.isSeatOccupied(2,1));
-        assertFalse(testFlight.isSeatOccupied(0, 0));
+        testFlight.setSeat(2, 1);
+        try {
+            assertTrue(testFlight.isSeatOccupied(2, 1));
+            assertFalse(testFlight.isSeatOccupied(0, 0));
+        } catch (InvalidSeatException e) {
+            fail("No exception should be thrown");
+        }
+
+        try {
+            assertTrue(testFlight.isSeatOccupied(-1, 1));
+            fail();
+        } catch (InvalidSeatException e) {
+            // pass
+        }
+
+        try {
+            assertTrue(testFlight.isSeatOccupied(5, 1));
+            fail();
+        } catch (InvalidSeatException e) {
+            // pass
+        }
+
+        try {
+            assertTrue(testFlight.isSeatOccupied(1, -1));
+            fail();
+        } catch (InvalidSeatException e) {
+            // pass
+        }
+
+        try {
+            assertTrue(testFlight.isSeatOccupied(1, 2));
+            fail();
+        } catch (InvalidSeatException e) {
+            // pass
+        }
+
     }
 
 

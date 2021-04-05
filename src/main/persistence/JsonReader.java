@@ -76,7 +76,6 @@ public class JsonReader {
     }
 
 
-
     // MODIFIES: flight
     // EFFECTS: parses seats from JSONArray and set them to the open seats in flight
     private void addSeats(Flight flight, JSONArray jsonArray) {
@@ -103,7 +102,9 @@ public class JsonReader {
     private void addPassenger(Flight flight, JSONObject jsonObject) {
         int time = jsonObject.getInt("Time");
         String destination = jsonObject.getString("Destination");
-        Passenger passenger = new Passenger(time, destination);
+        Passenger passenger = null;
+
+        passenger = new Passenger(time, destination);
         String name = jsonObject.getString("Name");
         String id = jsonObject.getString("ID");
         String flightNum = jsonObject.getString("Flight No.");

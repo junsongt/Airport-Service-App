@@ -16,9 +16,9 @@ public class ConfirmCancelPanel extends ContentPanel {
 
         loadImage();
 
-        finalMessage = new JLabel("You have successfully canceled your booking", SwingConstants.CENTER);
-        finalMessage.setIcon(okIcon);
-        add(finalMessage, BorderLayout.CENTER);
+        message = new JLabel("You have successfully canceled your booking", SwingConstants.CENTER);
+        message.setIcon(okIcon);
+        add(message, BorderLayout.CENTER);
 
         loadOptionPanel();
 
@@ -27,6 +27,7 @@ public class ConfirmCancelPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load option area with back button
+    @Override
     public void loadOptionPanel() {
         back = new JButton("Back to Main");
         back.addActionListener(new ActionListener() {

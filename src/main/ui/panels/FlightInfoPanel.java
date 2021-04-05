@@ -34,6 +34,7 @@ public class FlightInfoPanel extends ContentPanel {
 
     // MODIFIES: this
     // EFFECTS: load a option area with back button
+    @Override
     public void loadOptionPanel() {
         back = new JButton("Back to Main");
         back.addActionListener(new ActionListener() {

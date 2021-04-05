@@ -25,7 +25,6 @@ public class BookingPanel extends ContentPanel {
 //                select.setEnabled(true);
 //            }
 //        });
-
         loadOptionPanel();
 
         listSelectionToEnableButton(select);
@@ -40,7 +39,7 @@ public class BookingPanel extends ContentPanel {
         public void actionPerformed(ActionEvent e) {
             int index = listArea.getSelectedIndex();
             String flightInfo = flightList.get(index);
-            String flightNum = flightInfo.substring(11,16);
+            String flightNum = flightInfo.substring(11, 16);
 
 
             int time = Integer.parseInt(timeInput.getText());
@@ -53,8 +52,10 @@ public class BookingPanel extends ContentPanel {
     }
 
 
+
     // MODIFIES: this
     // EFFECTS: load a option area with select button & clear button
+    @Override
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

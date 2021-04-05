@@ -57,7 +57,14 @@ for the journey. It seems fun...
 - As a user, I want to be able to load the airline booking info from the last time saved from a file;
 
 
+*Phase 4: Task 2*
 
+- In Flight class in model package, isSeatOccupied method throws InvalidSeatException. The exception is additionally 
+tested.
+
+- In ui package, all panels except ContentPanel inherit the ContentPanel, which is the super type. All the panels 
+have different individual functionalities, though inheriting most methods in the supertype, they override 
+loadOptionPanel method in different ways.
 
 
  
