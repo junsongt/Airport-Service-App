@@ -9,13 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represent a panel with choosing seat for passenger functionality
 public class SeatPanel extends ContentPanel {
 
     private JPanel seatInfoArea;
     private JTable seats;
     private JButton select;
 
-    private Passenger passenger;
     private Flight flight;
     private int maxRow;
     private int maxCol;
@@ -24,7 +24,7 @@ public class SeatPanel extends ContentPanel {
     // EFFECTS: construct a panel with controller for user to choose a seat
     public SeatPanel(ServiceAppGUI gui) {
         super(gui);
-        passenger = gui.getCustomer();
+        Passenger passenger = gui.getCustomer();
         flight = gui.getAirlines().findFlight(passenger.getFlightNum());
         maxRow = flight.ROW;
         maxCol = flight.COL;

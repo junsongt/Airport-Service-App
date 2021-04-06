@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represent a panel with creating new passenger functionality
 public class BookingPanel extends ContentPanel {
 
     private JButton select;

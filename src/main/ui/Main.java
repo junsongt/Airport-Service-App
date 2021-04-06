@@ -1,10 +1,6 @@
 package ui;
 
-import model.Flight;
-import model.Passenger;
-
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 // TODO citation: code taken and modified from main.java class in JsonSerializationDemo
 public class Main {

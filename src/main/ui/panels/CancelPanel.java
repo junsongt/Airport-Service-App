@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Represent a panel with search previous booking to cancel functionality
 public class CancelPanel extends ContentPanel {
 
     private JPanel findBookingArea;

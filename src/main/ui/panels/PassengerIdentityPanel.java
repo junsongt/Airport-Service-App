@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represent a panel with setting passenger's name & ID functionality
 public class PassengerIdentityPanel extends ContentPanel {
 
     private JPanel passengerInfoArea;

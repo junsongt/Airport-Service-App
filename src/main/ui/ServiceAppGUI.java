@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+// Represent an airport self service app in GUI
 public class ServiceAppGUI extends JFrame {
 
     private Airlines airlines;

@@ -1,7 +1,6 @@
 package ui.panels;
 
 import exception.InvalidInputException;
-import model.Passenger;
 import ui.ServiceAppGUI;
 
 import javax.swing.*;
@@ -12,12 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Represent a panel with some common functionalities
 public class ContentPanel extends JPanel {
     // Controller
     protected ServiceAppGUI gui;
-    protected Passenger customer;
-
-    protected JLabel warning;
 
     // For search flight
     protected JPanel searchArea;
@@ -41,15 +38,15 @@ public class ContentPanel extends JPanel {
     protected JButton proceed;
     protected JButton back;
 
-    // For confirmation
+    // For information
     protected JLabel message;
+    protected JLabel warning;
     protected ImageIcon okIcon;
 
 
     // EFFECTS: constructing a generic content panel with controller
     public ContentPanel(ServiceAppGUI gui) {
         this.gui = gui;
-        this.customer = gui.getCustomer();
         this.setLayout(new BorderLayout());
     }
 
@@ -164,7 +161,8 @@ public class ContentPanel extends JPanel {
         });
     }
 
-
+    // MODIFIES: this, button
+    // EFFECTS: load the option area at the end of the page
     public void loadOptionPanel() {
         optionPanel = new JPanel();
         optionPanel.setLayout(new BorderLayout());

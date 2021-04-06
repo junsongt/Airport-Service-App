@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// represent an airport self service app
+// Represent an airport self service app
 public class ServiceApp {
     private Scanner input;
     private Airlines airlines;
@@ -74,7 +74,6 @@ public class ServiceApp {
 
 
     // EFFECTS: process the different inputs to corresponding functionalities on main-menu
-    // TODO: could throw exception: invalid inputs (implement later phase)
     public void processMainMenu() {
         boolean reset = false;
         while (!reset) {

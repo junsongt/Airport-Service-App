@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Represent a panel displaying detailed passengers' info within certain flight
 public class FlightInfoPanel extends ContentPanel {
 
     private DefaultListModel<ArrayList<String>> passengerInfoListModel;

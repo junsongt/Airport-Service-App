@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represent a panel displaying Home page with save & load functionalities
 public class HomePanel extends ContentPanel {
     private JLabel welcome;
     private JButton save;

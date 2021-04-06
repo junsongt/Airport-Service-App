@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Represent a panel with confirm booking functionality
 public class ConfirmBookingPanel extends ContentPanel {
 
     private JButton confirm;

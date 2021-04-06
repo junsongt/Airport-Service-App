@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Represent a panel with single search flight functionality
 public class SearchPanel extends ContentPanel {
 
     private JButton select;
