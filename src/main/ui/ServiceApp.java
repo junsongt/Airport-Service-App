@@ -100,13 +100,7 @@ public class ServiceApp {
             subMenu();
             String command = input.next();
             if (command.equals("n")) {
-//                try {
                 newBooking();
-//                } catch (SameIDException e) {
-//                    System.out.println(e.getMessage());
-//                } catch (InvalidInputException e) {
-//                    System.out.println(e.getMessage());
-//                }
             } else if (command.equals("s")) {
                 justSearch();
             } else if (command.equals("c")) {
