@@ -1,6 +1,6 @@
-# My Personal Project (z6k8l)
+# Term Project
 
-## A Simple Self-service Application for Passengers at an Airport 
+## A Simple Self-service Application for Passengers/Airport staff at an Airport 
 
 **An Introduction about the Application**:
 
